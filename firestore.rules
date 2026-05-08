@@ -1,0 +1,146 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Hardened Global Helpers ---
+    function isSignedIn() { return request.auth != null; }
+    // Relaxed verified check for preview environment
+    function isVerified() { return isSignedIn(); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    
+    // Admin check: Checking a role field in users collection
+    function isAdmin() {
+      return isSignedIn() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    function isStaff() {
+      return isSignedIn() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'staff' || 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    }
+    function isSuperAdmin() {
+      return isSignedIn() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'super-admin';
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // --- Entity Specific Validations ---
+    
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'role']) 
+        && data.uid == request.auth.uid 
+        && data.email is string
+        && data.role in ['customer', 'staff', 'admin']
+        && (data.get('displayName', '') is string)
+        && (data.get('photoURL', '') is string);
+    }
+
+    match /users/{userId} {
+      allow get: if isSignedIn();
+      allow list: if isAdmin();
+      allow create: if isVerified() && isOwner(userId) && isValidUser(incoming());
+      allow update: if isVerified() && isOwner(userId) && isValidUser(incoming())
+        && incoming().role == existing().role; // Prevent self-promotion
+      allow delete: if isSuperAdmin();
+    }
+
+    function isValidReservation(data) {
+      return data.keys().hasAll(['customerName', 'guestCount', 'date', 'time', 'status'])
+        && data.customerName is string && data.customerName.size() <= 100
+        && data.guestCount is int && data.guestCount > 0 && data.guestCount <= 50
+        && data.date is string && data.time is string
+        && data.status in ['pending', 'confirmed', 'cancelled', 'completed']
+        && (data.get('userId', '') is string)
+        && (data.get('specialRequests', '') is string && data.get('specialRequests', '').size() <= 500);
+    }
+
+    match /reservations/{resId} {
+      allow get: if isVerified() && (isOwner(existing().userId) || isStaff());
+      allow list: if isVerified() && (isStaff() || (resource.data.userId == request.auth.uid));
+      allow create: if isVerified() && isValidReservation(incoming())
+        && (incoming().get('userId', '') == '' || isOwner(incoming().userId));
+      allow update: if isVerified() && (
+        // Staff can update status
+        (isStaff() && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt'])) ||
+        // User can cancel or update details
+        (isOwner(existing().userId) && existing().status == 'pending' && isValidReservation(incoming())
+          && incoming().diff(existing()).affectedKeys().hasOnly(['customerName', 'guestCount', 'date', 'time', 'specialRequests', 'status', 'updatedAt']))
+      );
+      allow delete: if isAdmin();
+    }
+
+    function isValidMenuItem(data) {
+      return data.keys().hasAll(['name', 'category', 'isAvailable'])
+        && data.name is string && data.name.size() <= 100
+        && data.category is string
+        && data.isAvailable is bool;
+    }
+
+    match /menu/{itemId} {
+      allow read: if true;
+      allow write: if isStaff();
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isVerified() && incoming().rating is int 
+        && incoming().rating >= 1 && incoming().rating <= 5
+        && incoming().comment is string && incoming().comment.size() <= 1000
+        && incoming().userId == request.auth.uid;
+      allow update: if isVerified() && isOwner(existing().userId)
+        && incoming().diff(existing()).affectedKeys().hasOnly(['rating', 'comment', 'isModerated']);
+      allow delete: if isAdmin();
+    }
+
+    match /catering_inquiries/{inqId} {
+      allow create: if true; // Public can inquire
+      allow read, update, delete: if isStaff();
+    }
+
+    match /promotions/{promoId} {
+      allow read: if true;
+      allow write: if isStaff();
+    }
+
+    match /settings/config {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // --- POS & Inventory Modules ---
+    
+    match /inventory/{itemId} {
+      allow read: if isStaff();
+      allow write: if isStaff();
+    }
+
+    match /pos_transactions/{transactionId} {
+      allow read: if isStaff();
+      allow create: if isStaff();
+      allow update, delete: if isAdmin();
+    }
+
+    match /suppliers/{supplierId} {
+      allow read: if isStaff();
+      allow write: if isAdmin();
+    }
+
+    match /waste_logs/{logId} {
+      allow read: if isStaff();
+      allow create: if isStaff();
+      allow delete: if isAdmin();
+    }
+  }
+}

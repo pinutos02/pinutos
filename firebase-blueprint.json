@@ -1,0 +1,218 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account information and roles",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "staff", "admin", "super-admin"] },
+        "phoneNumber": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Reservation": {
+      "title": "Booking",
+      "description": "Buffet reservation record",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "email": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "guestCount": { "type": "integer" },
+        "date": { "type": "string", "format": "date" },
+        "time": { "type": "string" },
+        "specialRequests": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled", "completed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerName", "guestCount", "date", "time", "status"]
+    },
+    "MenuItem": {
+      "title": "Menu Item",
+      "description": "A dish available in the buffet",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "category": { "type": "string" },
+        "imageURL": { "type": "string" },
+        "isAvailable": { "type": "boolean" },
+        "isSpecial": { "type": "boolean" },
+        "availableDays": { "type": "array", "items": { "type": "string" } },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "category", "isAvailable"]
+    },
+    "Review": {
+      "title": "Customer Review",
+      "description": "Feedback and rating from customers",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "rating": { "type": "integer" },
+        "comment": { "type": "string" },
+        "isModerated": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["rating", "comment", "createdAt"]
+    },
+    "Promotion": {
+      "title": "Promotion",
+      "description": "Marketing details for seasonal offers",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "imageURL": { "type": "string" },
+        "startDate": { "type": "string", "format": "date-time" },
+        "endDate": { "type": "string", "format": "date-time" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["title", "isActive"]
+    },
+    "CateringInquiry": {
+      "title": "Catering Inquiry",
+      "description": "Inquiry for catering services",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "eventDate": { "type": "string", "format": "date" },
+        "guestCount": { "type": "integer" },
+        "eventDetails": { "type": "string" },
+        "status": { "type": "string", "enum": ["new", "contacted", "confirmed", "completed", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerName", "email", "eventDate", "status"]
+    },
+    "InventoryItem": {
+      "title": "Inventory Item",
+      "description": "Stock tracking for ingredients and supplies",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "quantity": { "type": "number" },
+        "unit": { "type": "string" },
+        "minThreshold": { "type": "number" },
+        "lastRestockedAt": { "type": "string", "format": "date-time" },
+        "expiryDate": { "type": "string", "format": "date" },
+        "supplierId": { "type": "string" }
+      },
+      "required": ["name", "quantity", "unit"]
+    },
+    "POS_Transaction": {
+      "title": "POS Transaction",
+      "description": "Over-the-counter sales record",
+      "type": "object",
+      "properties": {
+        "cashierId": { "type": "string" },
+        "items": { "type": "array", "items": { 
+          "type": "object", 
+          "properties": {
+            "itemId": { "type": "string" },
+            "name": { "type": "string" },
+            "quantity": { "type": "integer" },
+            "price": { "type": "number" }
+          }
+        }},
+        "subtotal": { "type": "number" },
+        "discount": { "type": "number" },
+        "total": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["cash", "gcash", "maya", "card"] },
+        "orderType": { "type": "string", "enum": ["dine-in", "take-out"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["cashierId", "total", "paymentMethod", "createdAt"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Sourcing and contact management",
+      "type": "object",
+      "properties": {
+        "companyName": { "type": "string" },
+        "contactPerson": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "category": { "type": "string" }
+      },
+      "required": ["companyName", "phone"]
+    },
+    "WasteLog": {
+      "title": "Waste Log",
+      "description": "Tracking spoilage and damaged items",
+      "type": "object",
+      "properties": {
+        "inventoryItemId": { "type": "string" },
+        "quantity": { "type": "number" },
+        "reason": { "type": "string" },
+        "loggedBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["inventoryItemId", "quantity", "reason", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/inventory/{itemId}": {
+      "schema": "InventoryItem",
+      "description": "Master inventory tracking"
+    },
+    "/pos_transactions/{transactionId}": {
+      "schema": "POS_Transaction",
+      "description": "Over-the-counter sales"
+    },
+    "/suppliers/{supplierId}": {
+      "schema": "Supplier",
+      "description": "Supplier database"
+    },
+    "/waste_logs/{logId}": {
+      "schema": "WasteLog",
+      "description": "Spoilage tracking"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and roles"
+    },
+    "/reservations/{reservationId}": {
+      "schema": "Reservation",
+      "description": "Table bookings"
+    },
+    "/menu/{itemId}": {
+      "schema": "MenuItem",
+      "description": "Buffet menu items"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Customer feedback"
+    },
+    "/promotions/{promoId}": {
+      "schema": "Promotion",
+      "description": "Current marketing offers"
+    },
+    "/catering_inquiries/{inquiryId}": {
+      "schema": "CateringInquiry",
+      "description": "Catering service requests"
+    },
+    "/settings/config": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "buffetPrice": { "type": "number" },
+          "operatingHours": { "type": "string" },
+          "maxGuestsPerTimeslot": { "type": "integer" }
+        }
+      },
+      "description": "Global application settings"
+    }
+  }
+}
