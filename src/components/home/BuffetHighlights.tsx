@@ -1,39 +1,42 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Fish, Flame, Coffee, Cake } from 'lucide-react';
-
-const highlights = [
-  {
-    title: 'Seafood Sensation',
-    description: 'Freshly caught crabs, shrimps, and mussels cooked in rich sauces.',
-    icon: Fish,
-    image: 'https://images.unsplash.com/photo-1551248429-40975aa4de74?auto=format&fit=crop&q=80&w=800',
-    color: 'bg-blue-100 text-blue-600'
-  },
-  {
-    title: 'Signature Lechon',
-    description: 'Crispy skin and tender meat, slow-roasted to perfection every weekend.',
-    icon: Flame,
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800',
-    color: 'bg-orange-100 text-orange-600'
-  },
-  {
-    title: 'Luzon to Mindanao',
-    description: 'A culinary journey featuring classics like Kare-Kare and Humba.',
-    icon: Coffee,
-    image: 'https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?auto=format&fit=crop&q=80&w=800',
-    color: 'bg-green-100 text-green-600'
-  },
-  {
-    title: 'Sweet Ending',
-    description: 'Traditional kakanin, halo-halo, and decadent desserts made daily.',
-    icon: Cake,
-    image: 'https://images.unsplash.com/photo-1551024506-0bccd038d33d?auto=format&fit=crop&q=80&w=800',
-    color: 'bg-pink-100 text-pink-600'
-  }
-];
+import { useSiteMedia } from '../../hooks/useSiteMedia';
 
 export function BuffetHighlights() {
+  const { media } = useSiteMedia();
+  
+  const highlights = [
+    {
+      title: 'Seafood Sensation',
+      description: 'Freshly caught crabs, shrimps, and mussels cooked in rich sauces.',
+      icon: Fish,
+      image: media.highlight_seafood,
+      color: 'bg-blue-100 text-blue-600'
+    },
+    {
+      title: 'Signature Lechon',
+      description: 'Crispy skin and tender meat, slow-roasted to perfection every weekend.',
+      icon: Flame,
+      image: media.highlight_lechon,
+      color: 'bg-orange-100 text-orange-600'
+    },
+    {
+      title: 'Luzon to Mindanao',
+      description: 'A culinary journey featuring classics like Kare-Kare and Humba.',
+      icon: Coffee,
+      image: media.highlight_karekare,
+      color: 'bg-green-100 text-green-600'
+    },
+    {
+      title: 'Sweet Ending',
+      description: 'Traditional kakanin, halo-halo, and decadent desserts made daily.',
+      icon: Cake,
+      image: media.highlight_dessert,
+      color: 'bg-pink-100 text-pink-600'
+    }
+  ];
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
       {highlights.map((item, index) => (

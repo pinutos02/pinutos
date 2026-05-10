@@ -6,12 +6,15 @@ import { Testimonials } from '../components/home/Testimonials';
 import { MapSection } from '../components/home/MapSection';
 import { motion } from 'motion/react';
 import { DynamicAds, DynamicVideos, DynamicMoments, DynamicEvents } from '../components/home/LandingContent';
+import { useSiteMedia } from '../hooks/useSiteMedia';
 
 interface HomePageProps {
   onNavigate: (view: any) => void;
 }
 
 export function HomePage({ onNavigate }: HomePageProps) {
+  const { media } = useSiteMedia();
+
   return (
     <div className="space-y-0">
       <Hero onNavigate={onNavigate} />
@@ -78,7 +81,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
           >
             <div className="aspect-[4/3] overflow-hidden shadow-2xl border border-brand-sepia group">
               <img 
-                src="https://images.unsplash.com/photo-1519222970733-f546218fa6d7?auto=format&fit=crop&q=80&w=1200" 
+                src={media.catering_promo} 
                 alt="Catering Setup" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
                 referrerPolicy="no-referrer"

@@ -19,6 +19,7 @@ import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '../../lib/utils';
 import { useLoading } from '../../context/LoadingContext';
+import { Portal } from '../ui/Portal';
 
 interface InventoryItem {
   id: string;
@@ -113,7 +114,7 @@ export function InventoryModule() {
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-white p-8 border border-brand-sepia shadow-sm">
-           <p className="text-[10px] uppercase tracking-[0.3em] font-black text-stone-400 mb-2">Active SKUs</p>
+           <p className="text-[10px] uppercase tracking-[0.3em] font-black text-stone-600 mb-2">Active SKUs</p>
            <p className="text-3xl font-serif font-black italic text-brand-stone">{items.length}</p>
         </div>
         <div className="bg-white p-8 border border-red-100 shadow-sm">
@@ -146,7 +147,7 @@ export function InventoryModule() {
                   onClick={() => setFilter(cat)}
                   className={cn(
                     "text-[10px] uppercase font-black tracking-[0.3em] whitespace-nowrap transition-colors relative focus:outline-none",
-                    filter === cat ? "text-brand-gold" : "text-stone-400 hover:text-brand-stone"
+                    filter === cat ? "text-brand-gold" : "text-stone-600 hover:text-brand-stone"
                   )}
                 >
                   {cat}
@@ -170,11 +171,11 @@ export function InventoryModule() {
            <table className="w-full text-left border-collapse">
               <thead>
                  <tr className="bg-stone-50 border-b border-brand-sepia">
-                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-400">Inventory Identity</th>
-                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-400">Category</th>
-                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-400">Volume</th>
-                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-400">Standing</th>
-                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-400">Recency</th>
+                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-600">Inventory Identity</th>
+                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-600">Category</th>
+                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-600">Volume</th>
+                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-600">Standing</th>
+                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-600">Recency</th>
                     <th className="px-8 py-4"></th>
                  </tr>
               </thead>
@@ -185,16 +186,16 @@ export function InventoryModule() {
                        <tr key={item.id} className="group hover:bg-warm-cream/30 transition-colors">
                           <td className="px-8 py-6">
                              <p className="font-serif text-lg font-bold italic text-brand-stone">{item.name}</p>
-                             <p className="text-[10px] text-stone-400 font-mono text-xs italic">UUID: {item.id.slice(-6).toUpperCase()}</p>
+                             <p className="text-[10px] text-stone-800 font-mono text-xs italic">UUID: {item.id.slice(-6).toUpperCase()}</p>
                           </td>
                           <td className="px-8 py-6">
-                             <span className="px-3 py-1 bg-brand-stone/5 text-[9px] uppercase font-black tracking-widest text-stone-500 border border-brand-sepia/20">
+                             <span className="px-3 py-1 bg-brand-stone/5 text-[9px] uppercase font-black tracking-widest text-stone-700 border border-brand-sepia/20">
                                 {item.category}
                              </span>
                           </td>
                           <td className="px-8 py-6">
                              <p className="font-mono text-sm font-black text-brand-stone">
-                                {item.quantity} <span className="text-stone-400 text-[10px] ml-1">{item.unit}</span>
+                                {item.quantity} <span className="text-stone-600 text-[10px] ml-1">{item.unit}</span>
                              </p>
                           </td>
                           <td className="px-8 py-6">
@@ -210,20 +211,20 @@ export function InventoryModule() {
                                 </div>
                              )}
                           </td>
-                          <td className="px-8 py-6 text-[10px] text-stone-400 font-bold uppercase tracking-widest">
+                          <td className="px-8 py-6 text-[10px] text-stone-800 font-bold uppercase tracking-widest">
                              {item.lastRestockedAt ? new Date(item.lastRestockedAt).toLocaleDateString() : '—'}
                           </td>
                           <td className="px-8 py-6 text-right">
                              <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
                                   onClick={() => setEditingItem(item)}
-                                  className="w-10 h-10 border border-brand-sepia text-stone-400 hover:text-brand-stone hover:bg-white flex items-center justify-center transition-all"
+                                  className="w-10 h-10 border border-brand-sepia text-stone-600 hover:text-brand-stone hover:bg-white flex items-center justify-center transition-all"
                                 >
                                    <History className="w-4 h-4" />
                                 </button>
                                 <button 
                                   onClick={() => deleteItem(item.id)}
-                                  className="w-10 h-10 border border-brand-sepia text-stone-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-all"
+                                  className="w-10 h-10 border border-brand-sepia text-stone-600 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-all"
                                 >
                                    <Trash2 className="w-4 h-4" />
                                 </button>
@@ -238,115 +239,117 @@ export function InventoryModule() {
       </div>
 
       {editingItem && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-6 bg-stone-900/90 backdrop-blur-md">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="bg-white w-full max-w-xl overflow-hidden shadow-2xl border border-brand-sepia rounded-sm flex flex-col max-h-[90vh]"
-          >
-            <div className="p-6 md:p-8 border-b border-brand-sepia bg-stone-50 flex justify-between items-start shrink-0">
-              <div>
-                <h4 className="text-xl md:text-2xl font-serif font-bold text-brand-stone italic uppercase tracking-tighter">
-                  {editingItem.id ? 'Audit SKU' : 'New Inventory Record'}
-                </h4>
-                <p className="text-[9px] uppercase tracking-[0.3em] font-black text-stone-400 mt-1">
-                  Master stock control protocol
-                </p>
-              </div>
-              <button 
-                onClick={() => setEditingItem(null)} 
-                className="text-stone-400 hover:text-brand-stone transition-all p-1 border border-transparent hover:border-brand-sepia rounded-full"
-              >
-                <X size={24} />
-              </button>
-            </div>
-
-            <div className="p-6 md:p-8 space-y-8 overflow-y-auto custom-scrollbar flex-grow">
-              <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Asset Nomenclature</label>
-                <input
-                  type="text"
-                  value={editingItem.name || ''}
-                  onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
-                  className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
-                  placeholder="e.g. Premium Angus Beef"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Sector</label>
-                  <div className="relative">
-                    <select
-                      value={editingItem.category}
-                      onChange={(e) => setEditingItem({ ...editingItem, category: e.target.value })}
-                      className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none appearance-none cursor-pointer rounded-none pr-10"
-                    >
-                      {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-stone-300">
-                      <ChevronRight className="rotate-90" size={14} />
-                    </div>
-                  </div>
+        <Portal>
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-6 bg-stone-900/90 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              className="bg-white w-full max-w-xl overflow-hidden shadow-2xl border border-brand-sepia rounded-sm flex flex-col max-h-[90vh]"
+            >
+              <div className="p-6 md:p-8 border-b border-brand-sepia bg-stone-50 flex justify-between items-start shrink-0">
+                <div>
+                  <h4 className="text-xl md:text-2xl font-serif font-bold text-brand-stone italic uppercase tracking-tighter">
+                    {editingItem.id ? 'Audit SKU' : 'New Inventory Record'}
+                  </h4>
+                  <p className="text-[9px] uppercase tracking-[0.3em] font-black text-stone-600 mt-1">
+                    Master stock control protocol
+                  </p>
                 </div>
+                <button 
+                  onClick={() => setEditingItem(null)} 
+                  className="text-stone-600 hover:text-brand-stone transition-all p-1 border border-transparent hover:border-brand-sepia rounded-full"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              <div className="p-6 md:p-8 space-y-8 overflow-y-auto custom-scrollbar flex-grow">
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Metric Unit</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-700 ml-1">Asset Nomenclature</label>
                   <input
                     type="text"
-                    value={editingItem.unit || ''}
-                    onChange={(e) => setEditingItem({ ...editingItem, unit: e.target.value })}
+                    value={editingItem.name || ''}
+                    onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
                     className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
-                    placeholder="kg, liters, boxes"
+                    placeholder="e.g. Premium Angus Beef"
                   />
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                 <div className="space-y-3">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Current Volume</label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-700 ml-1">Sector</label>
                     <div className="relative">
-                       <Boxes className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300 w-4 h-4" />
-                       <input
-                        type="number"
-                        value={editingItem.quantity ?? ''}
-                        onChange={(e) => setEditingItem({ ...editingItem, quantity: Number(e.target.value) })}
-                        className="w-full bg-stone-50 border border-brand-sepia/30 p-4 pl-10 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
-                        placeholder="0"
-                      />
+                      <select
+                        value={editingItem.category}
+                        onChange={(e) => setEditingItem({ ...editingItem, category: e.target.value })}
+                        className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none appearance-none cursor-pointer rounded-none pr-10"
+                      >
+                        {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                      </select>
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-stone-300">
+                        <ChevronRight className="rotate-90" size={14} />
+                      </div>
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Critical Threshold</label>
-                    <div className="relative">
-                       <AlertTriangle className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300 w-4 h-4" />
-                       <input
-                        type="number"
-                        value={editingItem.minThreshold ?? ''}
-                        onChange={(e) => setEditingItem({ ...editingItem, minThreshold: Number(e.target.value) })}
-                        className="w-full bg-stone-50 border border-brand-sepia/30 p-4 pl-10 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
-                        placeholder="10"
-                      />
-                    </div>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-700 ml-1">Metric Unit</label>
+                    <input
+                      type="text"
+                      value={editingItem.unit || ''}
+                      onChange={(e) => setEditingItem({ ...editingItem, unit: e.target.value })}
+                      className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
+                      placeholder="kg, liters, boxes"
+                    />
                   </div>
-              </div>
-            </div>
+                </div>
 
-            <div className="p-6 md:p-8 border-t border-brand-sepia bg-stone-50 flex flex-col md:flex-row gap-4 shrink-0">
-              <button
-                onClick={saveItem}
-                className="flex-1 bg-brand-stone text-white py-5 text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl font-bold"
-              >
-                Commit to Ledger
-              </button>
-              <button
-                onClick={() => setEditingItem(null)}
-                className="md:px-12 border border-brand-sepia text-stone-500 py-5 text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all order-first md:order-last font-bold"
-              >
-                Abort
-              </button>
-            </div>
-          </motion.div>
-        </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                   <div className="space-y-3">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-stone-700 ml-1">Current Volume</label>
+                      <div className="relative">
+                         <Boxes className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300 w-4 h-4" />
+                         <input
+                          type="number"
+                          value={editingItem.quantity ?? ''}
+                          onChange={(e) => setEditingItem({ ...editingItem, quantity: Number(e.target.value) })}
+                          className="w-full bg-stone-50 border border-brand-sepia/30 p-4 pl-10 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
+                          placeholder="0"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-stone-700 ml-1">Critical Threshold</label>
+                      <div className="relative">
+                         <AlertTriangle className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300 w-4 h-4" />
+                         <input
+                          type="number"
+                          value={editingItem.minThreshold ?? ''}
+                          onChange={(e) => setEditingItem({ ...editingItem, minThreshold: Number(e.target.value) })}
+                          className="w-full bg-stone-50 border border-brand-sepia/30 p-4 pl-10 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
+                          placeholder="10"
+                        />
+                      </div>
+                    </div>
+                </div>
+              </div>
+
+              <div className="p-6 md:p-8 border-t border-brand-sepia bg-stone-50 flex flex-col md:flex-row gap-4 shrink-0">
+                <button
+                  onClick={saveItem}
+                  className="flex-1 bg-brand-stone text-white py-5 text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl font-bold"
+                >
+                  Commit to Ledger
+                </button>
+                <button
+                  onClick={() => setEditingItem(null)}
+                  className="md:px-12 border border-brand-sepia text-stone-500 py-5 text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all order-first md:order-last font-bold"
+                >
+                  Abort
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        </Portal>
       )}
     </div>
   );

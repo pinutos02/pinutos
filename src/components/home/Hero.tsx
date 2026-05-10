@@ -1,19 +1,22 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ChevronRight, ArrowDown } from 'lucide-react';
+import { useSiteMedia } from '../../hooks/useSiteMedia';
 
 interface HeroProps {
   onNavigate: (view: any) => void;
 }
 
 export function Hero({ onNavigate }: HeroProps) {
+  const { media } = useSiteMedia();
+
   return (
     <section className="relative min-h-screen flex flex-col lg:flex-row bg-warm-cream overflow-hidden">
       {/* Editorial Left - Visual */}
       <div className="w-full lg:w-1/2 h-[60vh] lg:h-screen relative overflow-hidden group">
         <div className="absolute inset-0 bg-brand-stone/20 z-10"></div>
         <img 
-          src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=1920" 
+          src={media.hero_bg} 
           alt="Filipino Buffet" 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[20s] ease-linear"
           referrerPolicy="no-referrer"

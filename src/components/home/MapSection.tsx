@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { MapPin, Phone, Clock, Mail } from 'lucide-react';
+import { useSiteMedia } from '../../hooks/useSiteMedia';
 
 export function MapSection() {
+  const { media } = useSiteMedia();
+
   return (
     <section className="py-24 px-12 bg-warm-cream border-t border-brand-sepia">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-20 items-stretch">
@@ -55,7 +58,7 @@ export function MapSection() {
           <div className="absolute inset-0 bg-brand-stone/5 z-0"></div>
           <div className="absolute inset-0 grayscale opacity-40 hover:opacity-20 transition-opacity duration-1000">
              <img 
-              src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1200" 
+              src={media.map_bg} 
               className="w-full h-full object-cover" 
               alt="Map" 
               referrerPolicy="no-referrer"

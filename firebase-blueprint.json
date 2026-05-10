@@ -177,9 +177,25 @@
         "updatedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["title", "type", "mediaUrl", "isActive"]
+    },
+    "SiteMedia": {
+      "title": "Site Media Asset",
+      "description": "Global structural images for the website",
+      "type": "object",
+      "properties": {
+        "key": { "type": "string", "description": "Unique identifier like 'hero_bg' or 'lechon_promo'" },
+        "url": { "type": "string" },
+        "description": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["key", "url"]
     }
   },
   "firestore": {
+    "/site_media/{mediaId}": {
+      "schema": "SiteMedia",
+      "description": "Global structural media assets"
+    },
     "/landing_assets/{assetId}": {
       "schema": "LandingAsset",
       "description": "Dynamic landing page components"

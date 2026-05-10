@@ -1,12 +1,15 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Tag, Sparkles } from 'lucide-react';
+import { useSiteMedia } from '../../hooks/useSiteMedia';
 
 interface PromotionsProps {
   onNavigate: (view: any) => void;
 }
 
 export function Promotions({ onNavigate }: PromotionsProps) {
+  const { media } = useSiteMedia();
+
   return (
     <section className="py-24 px-6 relative bg-white border-y border-brand-sepia">
       <div className="max-w-7xl mx-auto">
@@ -43,7 +46,7 @@ export function Promotions({ onNavigate }: PromotionsProps) {
           
           <div className="lg:w-1/2 min-h-[500px] relative">
             <img 
-              src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&q=80&w=1200" 
+              src={media.lechon_promo} 
               alt="Delicious Lechon" 
               className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-700"
               referrerPolicy="no-referrer"

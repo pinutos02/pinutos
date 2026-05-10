@@ -90,13 +90,6 @@ export function CustomerDashboard() {
             </h1>
             <p className="text-stone-500 text-sm italic">Manage your heritage dining experiences and future bookings.</p>
           </div>
-          <button 
-            onClick={logout}
-            className="flex items-center gap-3 px-8 py-4 bg-white border border-brand-sepia text-[10px] uppercase font-black tracking-[0.3em] text-stone-500 hover:text-brand-gold transition-all"
-          >
-            <LogOut className="w-4 h-4" />
-            Sign Out
-          </button>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">

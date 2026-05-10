@@ -90,7 +90,7 @@ export function ReservationManager() {
                 "text-[10px] uppercase font-black tracking-widest px-6 py-2 border transition-all",
                 filter === f 
                   ? "bg-brand-stone text-white border-brand-stone" 
-                  : "bg-white text-stone-400 border-brand-sepia hover:border-brand-stone hover:text-brand-stone"
+                  : "bg-white text-stone-600 border-brand-sepia hover:border-brand-stone hover:text-brand-stone"
               )}
             >
               {f}
@@ -223,7 +223,7 @@ export function ReservationManager() {
          <div className="py-32 text-center bg-white border border-brand-sepia shadow-sm">
             <Calendar className="w-12 h-12 text-stone-100 mx-auto mb-6" />
             <h3 className="font-serif text-2xl font-bold text-brand-stone italic mb-2">No Active Records</h3>
-            <p className="text-stone-400 text-[10px] uppercase font-black tracking-widest">Awaiting new heritage bookings.</p>
+            <p className="text-stone-600 text-[10px] uppercase font-black tracking-widest">Awaiting new heritage bookings.</p>
          </div>
       )}
     </div>

@@ -35,7 +35,7 @@ export function Navbar({ currentView, onViewChange }: NavbarProps) {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 lg:px-12 py-4",
+      "fixed top-0 left-0 right-0 z-40 transition-all duration-500 px-6 lg:px-12 py-4",
       isScrolled 
         ? "bg-white border-b border-brand-sepia shadow-sm py-3" 
         : "bg-transparent py-6"

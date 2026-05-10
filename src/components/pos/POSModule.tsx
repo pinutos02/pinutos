@@ -127,7 +127,7 @@ export function POSModule() {
                 "px-8 py-3 text-[10px] uppercase font-black tracking-[0.2em] transition-all whitespace-nowrap",
                 category === cat 
                   ? "bg-brand-stone text-white shadow-lg" 
-                  : "bg-white text-stone-500 border border-brand-sepia hover:border-brand-gold"
+                  : "bg-white text-stone-700 border border-brand-sepia hover:border-brand-gold"
               )}
             >
               {cat}
@@ -146,7 +146,7 @@ export function POSModule() {
               <h4 className="font-serif text-lg font-bold text-brand-stone italic leading-none mb-2 group-hover:text-brand-gold">
                 {item.name}
               </h4>
-              <p className="text-stone-400 text-xs font-bold font-mono">PHP {item.price.toLocaleString()}</p>
+              <p className="text-stone-600 text-xs font-bold font-mono">PHP {item.price.toLocaleString()}</p>
             </motion.button>
           ))}
         </div>
@@ -156,7 +156,7 @@ export function POSModule() {
       <div className="lg:col-span-5 bg-white border border-brand-sepia flex flex-col shadow-2xl">
         <div className="p-6 border-b border-brand-sepia flex justify-between items-center bg-stone-50">
           <h3 className="text-[10px] uppercase tracking-[0.4em] font-black text-brand-stone">Current Transaction</h3>
-          <span className="text-[10px] font-mono text-stone-400">BATCH: {new Date().getTime().toString().slice(-6)}</span>
+          <span className="text-[10px] font-mono text-stone-600">BATCH: {new Date().getTime().toString().slice(-6)}</span>
         </div>
 
         <div className="flex-grow overflow-y-auto p-6 space-y-4">
@@ -172,15 +172,15 @@ export function POSModule() {
               >
                 <div className="space-y-1">
                   <h5 className="font-bold text-sm text-brand-stone uppercase tracking-widest">{item.name}</h5>
-                  <p className="text-[10px] text-stone-400 font-mono">PHP {item.price} x {item.quantity}</p>
+                  <p className="text-[10px] text-stone-600 font-mono">PHP {item.price} x {item.quantity}</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center border border-brand-sepia">
-                    <button onClick={() => updateQuantity(item.id, -1)} className="p-2 hover:bg-stone-50"><Minus className="w-3 h-3 text-stone-400" /></button>
+                    <button onClick={() => updateQuantity(item.id, -1)} className="p-2 hover:bg-stone-50"><Minus className="w-3 h-3 text-stone-600" /></button>
                     <span className="px-4 font-mono text-xs font-bold border-x border-brand-sepia">{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, 1)} className="p-2 hover:bg-stone-50"><Plus className="w-3 h-3 text-stone-400" /></button>
+                    <button onClick={() => updateQuantity(item.id, 1)} className="p-2 hover:bg-stone-50"><Plus className="w-3 h-3 text-stone-600" /></button>
                   </div>
-                  <button onClick={() => removeFromCart(item.id)} className="text-stone-300 hover:text-red-500 transition-colors">
+                  <button onClick={() => removeFromCart(item.id)} className="text-stone-500 hover:text-red-500 transition-colors">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
@@ -209,7 +209,7 @@ export function POSModule() {
 
         <div className="p-8 bg-stone-50 border-t border-brand-sepia space-y-6">
           <div className="flex justify-between items-center">
-            <span className="text-[10px] uppercase tracking-[0.3em] font-black text-stone-400">Total PHP</span>
+            <span className="text-[10px] uppercase tracking-[0.3em] font-black text-stone-700">Total PHP</span>
             <span className="text-4xl font-serif font-black italic text-brand-stone tracking-tight">
               {total.toLocaleString()}
             </span>
@@ -229,7 +229,7 @@ export function POSModule() {
                   "flex flex-col items-center justify-center gap-2 p-3 border transition-all",
                   paymentMethod === method.id 
                     ? "bg-brand-stone text-white border-brand-stone shadow-lg" 
-                    : "bg-white text-stone-400 border-brand-sepia hover:border-brand-gold"
+                    : "bg-white text-stone-700 border-brand-sepia hover:border-brand-gold"
                 )}
               >
                 <method.icon className="w-4 h-4" />

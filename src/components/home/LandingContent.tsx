@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../../lib/firebase';
+import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { Play, Calendar, ExternalLink, Sparkles } from 'lucide-react';
@@ -29,7 +29,7 @@ export function DynamicAds({ onNavigate }: { onNavigate: (view: any) => void }) 
     );
     return onSnapshot(q, (snapshot) => {
       setAds(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LandingAsset)));
-    });
+    }, (err) => handleFirestoreError(err, OperationType.LIST, 'landing_assets'));
   }, []);
 
   if (ads.length === 0) return null;
@@ -96,7 +96,7 @@ export function DynamicVideos() {
     );
     return onSnapshot(q, (snapshot) => {
       setVideos(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LandingAsset)));
-    });
+    }, (err) => handleFirestoreError(err, OperationType.LIST, 'landing_assets/videos'));
   }, []);
 
   if (videos.length === 0) return null;
@@ -150,7 +150,7 @@ export function DynamicMoments() {
     );
     return onSnapshot(q, (snapshot) => {
       setMoments(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LandingAsset)));
-    });
+    }, (err) => handleFirestoreError(err, OperationType.LIST, 'landing_assets/moments'));
   }, []);
 
   if (moments.length === 0) return null;
@@ -211,7 +211,7 @@ export function DynamicEvents() {
     );
     return onSnapshot(q, (snapshot) => {
       setEvents(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LandingAsset)));
-    });
+    }, (err) => handleFirestoreError(err, OperationType.LIST, 'landing_assets/events'));
   }, []);
 
   if (events.length === 0) return null;

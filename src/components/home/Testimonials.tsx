@@ -1,26 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Star, Quote } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
+import { collection, query, where, limit, onSnapshot, orderBy } from 'firebase/firestore';
 
-const testimonials = [
+interface Testimonial {
+  id: string;
+  userName: string;
+  rating: number;
+  comment: string;
+  role?: string;
+  avatar?: string;
+}
+
+const FALLBACK_TESTIMONIALS = [
   {
-    name: "Maria Santos",
+    userName: "Maria Santos",
     role: "Local Guide",
     comment: "The seafood selection is amazing! Very fresh and the staff are incredibly welcoming. Definitely worth the trip to Villanueva.",
     rating: 5,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria"
   },
   {
-    name: "John David",
+    userName: "John David",
     role: "Foodie Blogger",
     comment: "This place has the best lechon in town. The skin is consistently crispy and the meat is flavorful. Great family atmosphere!",
     rating: 5,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John"
   },
   {
-    name: "Elena Garcia",
-    role: "Villanueva Resident",
+    userName: "Elena Garcia",
+    role: "Resident",
     comment: "We always celebrate our birthdays here. The buffet price is very reasonable for the quality and variety of food they serve.",
     rating: 4,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Elena"
@@ -28,6 +39,27 @@ const testimonials = [
 ];
 
 export function Testimonials() {
+  const [items, setItems] = useState<any[]>(FALLBACK_TESTIMONIALS);
+
+  useEffect(() => {
+    const q = query(
+      collection(db, 'reviews'),
+      where('isModerated', '==', true),
+      orderBy('createdAt', 'desc'),
+      limit(3)
+    );
+
+    return onSnapshot(q, (snapshot) => {
+      if (!snapshot.empty) {
+        setItems(snapshot.docs.map(doc => ({ 
+          id: doc.id, 
+          ...doc.data(),
+          avatar: doc.data().avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${doc.data().userName || doc.id}`
+        })));
+      }
+    }, (err) => handleFirestoreError(err, OperationType.LIST, 'reviews'));
+  }, []);
+
   return (
     <section className="py-24 px-12 bg-white border-y border-brand-sepia relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 pointer-events-none">
@@ -41,9 +73,9 @@ export function Testimonials() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-brand-sepia bg-warm-cream">
-          {testimonials.map((item, index) => (
+          {items.map((item, index) => (
             <motion.div
-              key={item.name}
+              key={item.id || item.userName}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -67,11 +99,11 @@ export function Testimonials() {
               <div className="mt-auto flex flex-col items-center space-y-4">
                 <div className="relative">
                   <div className="absolute inset-0 border border-brand-sepia translate-x-1 translate-y-1"></div>
-                  <img src={item.avatar} alt={item.name} className="relative w-16 h-16 grayscale bg-stone-100 border border-brand-sepia" />
+                  <img src={item.avatar} alt={item.userName} className="relative w-16 h-16 grayscale bg-stone-100 border border-brand-sepia" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-black uppercase tracking-[0.3em] text-xs text-brand-stone">{item.name}</h4>
-                  <p className="text-[10px] text-brand-gold uppercase tracking-[0.2em] font-bold">{item.role}</p>
+                  <h4 className="font-black uppercase tracking-[0.3em] text-xs text-brand-stone">{item.userName}</h4>
+                  <p className="text-[10px] text-brand-gold uppercase tracking-[0.2em] font-bold">{item.role || 'Guest Collector'}</p>
                 </div>
               </div>
             </motion.div>
