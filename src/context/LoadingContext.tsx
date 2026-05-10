@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Logo } from '../components/ui/Logo';
+import { LoadingFeast } from '../components/ui/LoadingFeast';
 
 interface LoadingContextType {
   setIsLoading: (loading: boolean, message?: string) => void;
@@ -26,27 +26,30 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] bg-stone-900/90 backdrop-blur-md flex flex-col items-center justify-center p-8"
+            className="fixed inset-0 z-[9999] bg-stone-900/95 backdrop-blur-xl flex flex-col items-center justify-center p-8 text-center"
           >
-            <Logo size={100} animated className="mb-8" />
+            <div className="mb-12">
+              <LoadingFeast />
+            </div>
+            
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-center"
+              transition={{ delay: 0.2 }}
+              className="max-w-xs"
             >
-              <p className="text-white text-[12px] uppercase tracking-[1em] font-black italic">
-                {message || "Processing"}
+              <p className="text-brand-gold text-[10px] uppercase tracking-[0.8em] font-black italic mb-4">
+                The Heritage
               </p>
-              <div className="mt-4 flex gap-1 justify-center">
-                {[0, 1, 2].map(i => (
-                  <motion.div
-                    key={i}
-                    animate={{ opacity: [0.3, 1, 0.3] }}
-                    transition={{ repeat: Infinity, duration: 1, delay: i * 0.2 }}
-                    className="w-2 h-2 bg-brand-gold rounded-full"
-                  />
-                ))}
+              <h4 className="text-white text-2xl font-serif font-bold italic mb-4">
+                {message || "Preparing the Feast"}
+              </h4>
+              <div className="w-48 h-[1px] bg-brand-sepia/30 mx-auto relative overflow-hidden">
+                <motion.div 
+                  animate={{ x: ['-100%', '100%'] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+                  className="absolute inset-y-0 w-1/3 bg-brand-gold"
+                />
               </div>
             </motion.div>
           </motion.div>

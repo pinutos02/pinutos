@@ -29,6 +29,7 @@ import { POSModule } from '../components/pos/POSModule';
 import { InventoryModule } from '../components/pos/InventoryModule';
 import { LandingAssetManager } from '../components/admin/LandingAssetManager';
 import { MenuManager } from '../components/admin/MenuManager';
+import { ReservationManager } from '../components/admin/ReservationManager';
 
 export function AdminDashboard() {
   const { profile } = useAuth();
@@ -308,13 +309,7 @@ export function AdminDashboard() {
         {tab === 'content' && <LandingAssetManager />}
         {tab === 'menu' && <MenuManager />}
 
-        {tab === 'reservations' && (
-           <div className="bg-white p-20 border border-brand-sepia text-center shadow-sm">
-             <Calendar className="w-12 h-12 text-stone-100 mx-auto mb-6" />
-             <h3 className="font-serif text-2xl font-bold italic text-brand-stone mb-2">Reservation Archive</h3>
-             <p className="text-stone-400 text-[10px] uppercase font-black tracking-widest">Filter and manage all historical dining records.</p>
-           </div>
-        )}
+        {tab === 'reservations' && <ReservationManager />}
 
 
       </main>
