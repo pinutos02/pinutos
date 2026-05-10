@@ -230,96 +230,113 @@ export function LandingAssetManager() {
       </div>
 
       {editingAsset && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-stone-900/60 backdrop-blur-md">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-stone-900/80 backdrop-blur-sm">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white w-full max-w-2xl overflow-hidden shadow-2xl border border-brand-sepia"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="bg-white w-full max-w-2xl overflow-hidden shadow-2xl border border-brand-sepia rounded-sm"
           >
-            <div className="p-8 border-b border-brand-sepia bg-stone-50 flex justify-between items-center">
+            <div className="p-6 md:p-8 border-b border-brand-sepia bg-stone-50 flex justify-between items-start">
               <div>
-                <h4 className="text-2xl font-serif font-bold text-brand-stone italic">
-                  {editingAsset.id ? 'Edit Display' : 'New Display Asset'}
+                <h4 className="text-xl md:text-2xl font-serif font-bold text-brand-stone italic">
+                  {editingAsset.id ? 'Refine Display' : 'New Heritage Asset'}
                 </h4>
-                <p className="text-[10px] uppercase tracking-[0.3em] font-black text-stone-400 mt-1">Configure your landing page content</p>
+                <p className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-black text-stone-400 mt-1">
+                  Configure your landing page showcase
+                </p>
               </div>
-              <button onClick={() => setEditingAsset(null)} className="text-stone-400 hover:text-brand-stone">
+              <button 
+                onClick={() => setEditingAsset(null)} 
+                className="text-stone-400 hover:text-brand-stone transition-colors p-1"
+              >
                 <X size={24} />
               </button>
             </div>
 
-            <div className="p-8 space-y-6 max-h-[70vh] overflow-y-auto">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="p-6 md:p-8 space-y-6 max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Content Type</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Content Category</label>
                   <select
                     value={editingAsset.type}
                     onChange={(e) => setEditingAsset({ ...editingAsset, type: e.target.value as any })}
-                    className="w-full bg-stone-100 border-none p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none"
+                    className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none appearance-none rounded-none cursor-pointer"
                   >
-                    <option value="image">Advertisement (Image)</option>
-                    <option value="video">Promotional Video</option>
-                    <option value="event">Special Event</option>
-                    <option value="moment">Heritage Moment (Gallery)</option>
+                    <option value="image">Heritage Advertisement</option>
+                    <option value="video">Cinematic Promotional</option>
+                    <option value="event">Upcoming Festivity</option>
+                    <option value="moment">Shared Memory (Gallery)</option>
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Display Title</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Showcase Title</label>
                   <input
                     type="text"
                     value={editingAsset.title || ''}
                     onChange={(e) => setEditingAsset({ ...editingAsset, title: e.target.value })}
-                    className="w-full bg-stone-100 border-none p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none"
+                    className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
                     placeholder="e.g. Seafood Saturday Special"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Description / Subtitle</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">The Story (Subtitle)</label>
                 <textarea
                   value={editingAsset.subtitle || ''}
                   onChange={(e) => setEditingAsset({ ...editingAsset, subtitle: e.target.value })}
-                  className="w-full bg-stone-100 border-none p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none min-h-[100px]"
-                  placeholder="Tell the story behind this content..."
+                  className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none min-h-[100px] rounded-none resize-none"
+                  placeholder="Describe the essence of this feature..."
                 />
               </div>
 
               {editingAsset.type === 'video' ? (
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Video URL (YouTube/MP4)</label>
-                  <input
-                    type="text"
-                    value={editingAsset.mediaUrl || ''}
-                    onChange={(e) => setEditingAsset({ ...editingAsset, mediaUrl: e.target.value })}
-                    className="w-full bg-stone-100 border-none p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none"
-                    placeholder="https://youtube.com/embed/..."
-                  />
-                  <p className="text-[8px] text-stone-400 uppercase tracking-widest">Use embed links for YouTube videos</p>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Video Source (Embed URL)</label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={editingAsset.mediaUrl || ''}
+                      onChange={(e) => setEditingAsset({ ...editingAsset, mediaUrl: e.target.value })}
+                      className="w-full bg-stone-50 border border-brand-sepia/30 p-4 pl-12 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
+                      placeholder="https://youtube.com/embed/..."
+                    />
+                    <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300" size={18} />
+                  </div>
+                  <p className="text-[8px] text-brand-gold uppercase tracking-[0.2em] font-bold ml-1">Pro tip: Use YouTube 'Embed' links for best performance</p>
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Media Asset (Upload Image)</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Visual Asset</label>
                   <div className="flex flex-col gap-4">
-                    {editingAsset.mediaUrl && (
-                      <div className="relative group">
+                    {editingAsset.mediaUrl ? (
+                      <div className="relative group overflow-hidden border border-brand-sepia aspect-video bg-stone-100">
                         <img 
                           src={editingAsset.mediaUrl} 
                           alt="Preview" 
-                          className="w-full h-48 object-cover border border-brand-sepia"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         />
                         <button 
                           onClick={() => setEditingAsset({...editingAsset, mediaUrl: ''})}
-                          className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute inset-0 bg-brand-stone/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
                         >
-                          <span className="text-white text-[10px] font-black uppercase tracking-widest">Change Image</span>
+                          <div className="flex flex-col items-center gap-2">
+                            <Trash2 className="text-white" size={24} />
+                            <span className="text-white text-[10px] font-black uppercase tracking-widest">Replace Heritage Image</span>
+                          </div>
                         </button>
                       </div>
-                    )}
-                    {!editingAsset.mediaUrl && (
-                      <div className="relative h-48 bg-stone-100 border-2 border-dashed border-brand-sepia/30 flex flex-col items-center justify-center cursor-pointer hover:bg-stone-200 transition-all">
-                        <ImageIcon className="text-stone-300 mb-2" size={48} />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-stone-500">Choose Heritage Image</span>
+                    ) : (
+                      <div className="relative aspect-video bg-stone-50 border-2 border-dashed border-brand-sepia/20 flex flex-col items-center justify-center cursor-pointer hover:bg-stone-100 hover:border-brand-sepia/40 transition-all group">
+                        <div className="flex flex-col items-center gap-4">
+                           <div className="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center border border-brand-sepia/10 group-hover:scale-110 transition-transform">
+                              <ImageIcon className="text-brand-gold" size={32} />
+                           </div>
+                           <div className="text-center">
+                              <span className="text-[10px] font-black uppercase tracking-widest text-brand-stone block mb-1">Select Heritage Asset</span>
+                              <span className="text-[8px] text-stone-400 uppercase tracking-widest">JPG, PNG up to 800kb</span>
+                           </div>
+                        </div>
                         <input
                           type="file"
                           accept="image/*"
@@ -332,19 +349,19 @@ export function LandingAssetManager() {
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Link Action (Optional)</label>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Action Link (Optional)</label>
                     <input
                       type="text"
                       value={editingAsset.linkUrl || ''}
                       onChange={(e) => setEditingAsset({ ...editingAsset, linkUrl: e.target.value })}
-                      className="w-full bg-stone-100 border-none p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none"
+                      className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
                       placeholder="https://..."
                     />
                   </div>
-                  <div className="flex items-end pb-1">
-                     <label className="flex items-center gap-3 cursor-pointer group">
+                  <div className="flex items-center md:pb-2">
+                     <label className="flex items-center gap-4 cursor-pointer group w-full bg-stone-50 p-4 border border-brand-sepia/30 hover:bg-white transition-colors">
                         <input 
                           type="checkbox"
                           checked={editingAsset.isActive}
@@ -357,22 +374,25 @@ export function LandingAssetManager() {
                         )}>
                           {editingAsset.isActive && <Check size={14} className="text-white" />}
                         </div>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-stone-500 group-hover:text-brand-stone">Publicly Visible</span>
+                        <div>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-brand-stone block">Publicly Visible</span>
+                          <span className="text-[8px] text-stone-400 uppercase tracking-widest">Publish to live site</span>
+                        </div>
                      </label>
                   </div>
               </div>
             </div>
 
-            <div className="p-8 border-t border-brand-sepia flex gap-4">
+            <div className="p-6 md:p-8 border-t border-brand-sepia bg-stone-50 flex flex-col md:flex-row gap-4">
               <button
                 onClick={saveAsset}
-                className="flex-1 bg-brand-stone text-white py-4 text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all"
+                className="flex-1 bg-brand-stone text-white py-5 text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-lg active:scale-[0.98]"
               >
-                Save Display Item
+                Commit Showcase Asset
               </button>
               <button
                 onClick={() => setEditingAsset(null)}
-                className="px-8 border border-brand-sepia text-stone-500 py-4 text-[10px] font-black uppercase tracking-widest hover:bg-stone-50 transition-all"
+                className="md:px-12 border border-brand-sepia text-stone-500 py-5 text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all order-first md:order-last"
               >
                 Cancel
               </button>
@@ -380,6 +400,7 @@ export function LandingAssetManager() {
           </motion.div>
         </div>
       )}
+
     </div>
   );
 }
