@@ -40,9 +40,9 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-warm-cream flex flex-col font-sans selection:bg-brand-gold selection:text-white">
+    <div className="min-h-screen bg-warm-cream flex flex-col font-sans selection:bg-brand-gold selection:text-white relative">
       <Navbar currentView={view} onViewChange={setView} />
-      <main className="flex-grow">
+      <main className="flex-grow relative z-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={view}

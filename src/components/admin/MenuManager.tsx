@@ -210,15 +210,15 @@ export function MenuManager() {
       </div>
 
       {editingItem && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 md:p-6 bg-stone-900/80 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-6 bg-stone-900/90 backdrop-blur-md">
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="bg-white w-full max-w-2xl overflow-hidden shadow-2xl border border-brand-sepia rounded-sm"
+            className="bg-white w-full max-w-2xl overflow-hidden shadow-2xl border border-brand-sepia rounded-sm flex flex-col max-h-[90vh]"
           >
-            <div className="p-6 md:p-8 border-b border-brand-sepia bg-stone-50 flex justify-between items-start">
+            <div className="p-6 md:p-8 border-b border-brand-sepia bg-stone-50 flex justify-between items-start shrink-0">
               <div>
-                <h4 className="text-xl md:text-2xl font-serif font-bold text-brand-stone italic">
+                <h4 className="text-xl md:text-2xl font-serif font-bold text-brand-stone italic uppercase tracking-tighter">
                   {editingItem.id ? 'Refine Heritage Dish' : 'Compose New Offering'}
                 </h4>
                 <p className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-black text-stone-400 mt-1">
@@ -227,38 +227,43 @@ export function MenuManager() {
               </div>
               <button 
                 onClick={() => setEditingItem(null)} 
-                className="text-stone-400 hover:text-brand-stone transition-colors p-1"
+                className="text-stone-400 hover:text-brand-stone transition-all p-1 border border-transparent hover:border-brand-sepia rounded-full"
               >
                 <X size={24} />
               </button>
             </div>
 
-            <div className="p-6 md:p-8 space-y-6 max-h-[calc(100vh-200px)] overflow-y-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
+            <div className="p-6 md:p-8 space-y-8 overflow-y-auto custom-scrollbar flex-grow">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="space-y-3">
                   <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Dish Identity</label>
                   <input
                     type="text"
                     value={editingItem.name || ''}
                     onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
-                    className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none"
+                    className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
                     placeholder="e.g. Garlic Baked Scallops"
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Category</label>
-                  <select
-                    value={editingItem.category}
-                    onChange={(e) => setEditingItem({ ...editingItem, category: e.target.value })}
-                    className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none appearance-none cursor-pointer"
-                  >
-                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={editingItem.category}
+                      onChange={(e) => setEditingItem({ ...editingItem, category: e.target.value })}
+                      className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none appearance-none cursor-pointer rounded-none pr-10"
+                    >
+                      {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-stone-300">
+                      <Plus size={12} className="rotate-45" />
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                 <div className="space-y-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                 <div className="space-y-3">
                     <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Price Point (₱)</label>
                     <div className="relative">
                        <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300 w-4 h-4" />
@@ -266,13 +271,13 @@ export function MenuManager() {
                         type="number"
                         value={editingItem.price || ''}
                         onChange={(e) => setEditingItem({ ...editingItem, price: Number(e.target.value) })}
-                        className="w-full bg-stone-50 border border-brand-sepia/30 p-4 pl-10 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none"
+                        className="w-full bg-stone-50 border border-brand-sepia/30 p-4 pl-10 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none rounded-none"
                         placeholder="399"
                       />
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 pt-4 md:pt-0">
-                     <label className="flex items-center gap-3 cursor-pointer group flex-1 bg-stone-50 p-4 border border-brand-sepia/30">
+                  <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 sm:pt-6">
+                     <label className="flex items-center gap-3 cursor-pointer group flex-1 bg-stone-50 p-4 border border-brand-sepia/20 w-full hover:bg-white transition-all">
                         <input 
                           type="checkbox"
                           checked={editingItem.isAvailable}
@@ -287,7 +292,7 @@ export function MenuManager() {
                         </div>
                         <span className="text-[10px] font-black uppercase tracking-widest text-brand-stone opacity-70 group-hover:opacity-100 transition-opacity">Active in Buffet</span>
                      </label>
-                     <label className="flex items-center gap-3 cursor-pointer group flex-1 bg-stone-50 p-4 border border-brand-sepia/30">
+                     <label className="flex items-center gap-3 cursor-pointer group flex-1 bg-stone-50 p-4 border border-brand-sepia/20 w-full hover:bg-white transition-all">
                         <input 
                           type="checkbox"
                           checked={editingItem.isSpecial}
@@ -305,34 +310,43 @@ export function MenuManager() {
                   </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Culinary Description</label>
                 <textarea
                   value={editingItem.description || ''}
                   onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })}
-                  className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none min-h-[80px] resize-none"
+                  className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none min-h-[100px] resize-none leading-relaxed"
                   placeholder="The secrets of the recipe..."
                 />
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Dish Visual</label>
                 <div className="flex flex-col gap-4">
                   {editingItem.imageURL ? (
-                    <div className="relative group aspect-video overflow-hidden border border-brand-sepia">
-                      <img src={editingItem.imageURL} alt="Preview" className="w-full h-full object-cover" />
+                    <div className="relative group aspect-video overflow-hidden border border-brand-sepia bg-stone-100 bg-checkered">
+                      <img src={editingItem.imageURL} alt="Preview" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                       <button 
                         onClick={() => setEditingItem({...editingItem, imageURL: ''})}
-                        className="absolute inset-0 bg-brand-stone/60 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
+                        className="absolute inset-0 bg-brand-stone/80 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
                       >
-                        <Trash2 className="text-white mb-2" size={24} />
+                        <div className="w-12 h-12 rounded-full bg-red-500/20 border border-red-500/50 flex items-center justify-center mb-3">
+                          <Trash2 className="text-white" size={20} />
+                        </div>
                         <span className="text-white text-[10px] font-black uppercase tracking-widest">Remove Asset</span>
                       </button>
                     </div>
                   ) : (
-                    <div className="relative aspect-video bg-stone-50 border-2 border-dashed border-brand-sepia/20 flex flex-col items-center justify-center cursor-pointer hover:bg-stone-100 transition-all group">
-                       < ImageIcon className="text-brand-gold mb-3 opacity-40 group-hover:opacity-100 transition-opacity" size={40} />
-                       <span className="text-[10px] font-black uppercase tracking-widest text-brand-stone">Capture the Flavor</span>
+                    <div className="relative aspect-video bg-stone-50 border-2 border-dashed border-brand-sepia/20 flex flex-col items-center justify-center cursor-pointer hover:bg-stone-100 hover:border-brand-sepia/40 transition-all group overflow-hidden">
+                       <div className="flex flex-col items-center gap-5 p-12">
+                          <div className="w-20 h-20 rounded-full bg-stone-100 flex items-center justify-center border border-brand-sepia/10 group-hover:scale-110 group-hover:border-brand-gold transition-all duration-500">
+                             <ImageIcon className="text-brand-gold" size={32} />
+                          </div>
+                          <div className="text-center space-y-2">
+                             <span className="text-[10px] font-black uppercase tracking-widest text-brand-stone block">Capture the Flavor</span>
+                             <span className="text-[8px] text-stone-400 uppercase tracking-widest bg-stone-100 px-3 py-1 rounded-full">JPG, PNG up to 800kb</span>
+                          </div>
+                       </div>
                        <input
                         type="file"
                         accept="image/*"
@@ -345,16 +359,16 @@ export function MenuManager() {
               </div>
             </div>
 
-            <div className="p-6 md:p-8 border-t border-brand-sepia bg-stone-50 flex flex-col md:flex-row gap-4">
+            <div className="p-6 md:p-8 border-t border-brand-sepia bg-stone-50 flex flex-col md:flex-row gap-4 shrink-0">
               <button
                 onClick={saveItem}
-                className="flex-1 bg-brand-stone text-white py-5 text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl"
+                className="flex-1 bg-brand-stone text-white py-5 text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl font-black"
               >
                 Publish to Menu
               </button>
               <button
                 onClick={() => setEditingItem(null)}
-                className="md:px-12 border border-brand-sepia text-stone-400 py-5 text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all order-first md:order-last"
+                className="md:px-12 border border-brand-sepia text-stone-500 py-5 text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all order-first md:order-last font-bold"
               >
                 Cancel
               </button>
