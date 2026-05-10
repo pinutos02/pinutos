@@ -31,12 +31,15 @@ interface Reservation {
   specialRequests?: string;
 }
 
+import { ReviewModule } from '../components/dashboard/ReviewModule';
+
 export function CustomerDashboard() {
   const { profile, logout } = useAuth();
   const { setIsLoading } = useLoading();
   const { occupancy } = useSocket();
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'overview' | 'reviews'>('overview');
 
   useEffect(() => {
     if (!profile?.uid) return;
@@ -80,19 +83,40 @@ export function CustomerDashboard() {
   };
 
   return (
-    <div className="pt-32 pb-24 px-12 min-h-screen bg-warm-cream">
+    <div className="pt-24 lg:pt-32 pb-24 px-4 md:px-12 min-h-screen bg-warm-cream">
       <div className="max-w-7xl mx-auto">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-16">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 mb-16">
           <div className="space-y-2">
-            <span className="text-[10px] uppercase tracking-[0.4em] font-black text-brand-gold block">Customer Area</span>
-            <h1 className="font-serif text-5xl font-bold text-brand-stone italic italic">
+            <span className="text-[10px] uppercase tracking-[0.4em] font-black text-brand-gold block text-center lg:text-left">Customer Area</span>
+            <h1 className="font-serif text-3xl md:text-5xl font-bold text-brand-stone italic text-center lg:text-left">
               Welcome back, <span className="text-brand-gold">{profile?.displayName?.split(' ')[0]}</span>
             </h1>
-            <p className="text-stone-500 text-sm italic">Manage your heritage dining experiences and future bookings.</p>
+            <p className="text-stone-500 text-sm italic text-center lg:text-left">Manage your heritage dining experiences and share your voice.</p>
           </div>
-        </header>
+          <div className="flex flex-wrap justify-center lg:justify-end gap-3 w-full lg:w-auto">
+             <button 
+               onClick={() => setActiveTab('overview')}
+               className={cn(
+                 "flex-1 lg:flex-none px-6 md:px-8 py-3 text-[10px] lowercase italic font-serif tracking-widest transition-all border",
+                 activeTab === 'overview' ? "bg-brand-stone text-white border-brand-stone shadow-lg" : "bg-white text-stone-400 border-brand-sepia hover:text-brand-stone"
+               )}
+             >
+               Bookings
+             </button>
+             <button 
+               onClick={() => setActiveTab('reviews')}
+               className={cn(
+                 "flex-1 lg:flex-none px-6 md:px-8 py-3 text-[10px] lowercase italic font-serif tracking-widest transition-all border",
+                 activeTab === 'reviews' ? "bg-brand-stone text-white border-brand-stone shadow-lg" : "bg-white text-stone-400 border-brand-sepia hover:text-brand-stone"
+               )}
+             >
+               Testimonies
+             </button>
+          </div>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        {activeTab === 'overview' ? (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 animate-in fade-in duration-500">
           {/* Stats Summary */}
           <div className="lg:col-span-1 space-y-8">
             <div className="bg-white p-10 border border-brand-sepia shadow-sm space-y-8 animate-in fade-in slide-in-from-left duration-700">
@@ -222,6 +246,11 @@ export function CustomerDashboard() {
             )}
           </div>
         </div>
+      ) : (
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+             <ReviewModule />
+          </div>
+        )}
       </div>
     </div>
   );

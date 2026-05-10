@@ -95,15 +95,29 @@ service cloud.firestore {
       allow write: if isStaff();
     }
 
+    function isValidReview(data) {
+      return data.keys().hasAll(['userName', 'rating', 'comment', 'isModerated'])
+        && data.userName is string
+        && data.rating is int && data.rating >= 1 && data.rating <= 5
+        && data.comment is string && data.comment.size() <= 1000
+        && data.isModerated is bool
+        && (data.get('suggestions', '') is string && data.get('suggestions', '').size() <= 1000)
+        && (data.get('role', 'Guest') is string)
+        && (data.get('userId', '') is string);
+    }
+
     match /reviews/{reviewId} {
       allow read: if true;
-      allow create: if isVerified() && incoming().rating is int 
-        && incoming().rating >= 1 && incoming().rating <= 5
-        && incoming().comment is string && incoming().comment.size() <= 1000
+      allow create: if isVerified() && isValidReview(incoming())
+        && incoming().isModerated == false
         && incoming().userId == request.auth.uid;
-      allow update: if isVerified() && isOwner(existing().userId)
-        && incoming().diff(existing()).affectedKeys().hasOnly(['rating', 'comment', 'isModerated']);
-      allow delete: if isAdmin();
+      allow update: if isVerified() && (
+        (isAdmin() && isValidReview(incoming())) ||
+        (isOwner(existing().userId) && isValidReview(incoming()) 
+          && incoming().isModerated == existing().isModerated
+          && incoming().diff(existing()).affectedKeys().hasOnly(['rating', 'comment', 'suggestions', 'userName']))
+      );
+      allow delete: if isAdmin() || (isVerified() && isOwner(existing().userId));
     }
 
     match /catering_inquiries/{inqId} {

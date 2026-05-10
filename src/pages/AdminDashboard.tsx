@@ -31,6 +31,7 @@ import { LandingAssetManager } from '../components/admin/LandingAssetManager';
 import { MenuManager } from '../components/admin/MenuManager';
 import { ReservationManager } from '../components/admin/ReservationManager';
 import { GlobalMediaManager } from '../components/admin/GlobalMediaManager';
+import { SalesAuditModule } from '../components/admin/SalesAuditModule';
 import { PromotionManager } from '../components/admin/PromotionManager';
 import { TestimonialManager } from '../components/admin/TestimonialManager';
 
@@ -44,7 +45,7 @@ export function AdminDashboard() {
     today: 0
   });
   const [recentReservations, setRecentReservations] = useState<any[]>([]);
-  const [tab, setTab] = useState<'overview' | 'pos' | 'inventory' | 'reservations' | 'menu' | 'content' | 'site_media' | 'promotions' | 'testimonials'>('overview');
+  const [tab, setTab] = useState<'overview' | 'pos' | 'inventory' | 'reservations' | 'menu' | 'content' | 'site_media' | 'promotions' | 'testimonials' | 'audit'>('overview');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -192,6 +193,19 @@ export function AdminDashboard() {
             <Calendar className="w-5 h-5" />
             Reservations
           </button>
+
+          {(profile.role === 'admin' || profile.role === 'super-admin') && (
+            <button 
+              onClick={() => { setTab('audit'); setIsMobileMenuOpen(false); }}
+              className={cn(
+                "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+                tab === 'audit' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+              )}
+            >
+              <BarChart3 className="w-5 h-5" />
+              Sales Audit
+            </button>
+          )}
 
           {(profile.role === 'admin' || profile.role === 'super-admin') && (
             <div className="mt-6 mb-2 flex items-center gap-4 px-6 opacity-30">
@@ -411,6 +425,7 @@ export function AdminDashboard() {
 
                 {tab === 'pos' && <POSModule />}
                 {tab === 'inventory' && <InventoryModule />}
+                {tab === 'audit' && <SalesAuditModule />}
                 {tab === 'content' && <LandingAssetManager />}
                 {tab === 'menu' && <MenuManager />}
                 {tab === 'site_media' && <GlobalMediaManager />}

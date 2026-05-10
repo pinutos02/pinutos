@@ -110,121 +110,121 @@ export function InventoryModule() {
   });
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 bg-stone-950 p-6 lg:p-10 rounded-sm">
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white p-8 border border-brand-sepia shadow-sm">
-           <p className="text-[10px] uppercase tracking-[0.3em] font-black text-stone-600 mb-2">Active SKUs</p>
-           <p className="text-3xl font-serif font-black italic text-brand-stone">{items.length}</p>
+        <div className="bg-stone-900 p-8 border border-stone-800 shadow-xl">
+           <p className="text-[10px] uppercase tracking-[0.3em] font-black text-stone-500 mb-2">Active SKUs</p>
+           <p className="text-3xl font-serif font-black italic text-white">{items.length}</p>
         </div>
-        <div className="bg-white p-8 border border-red-100 shadow-sm">
-           <p className="text-[10px] uppercase tracking-[0.3em] font-black text-red-400 mb-2">Critical Stock</p>
-           <p className="text-3xl font-serif font-black italic text-red-600">
+        <div className="bg-stone-900 p-8 border border-red-900/50 shadow-xl">
+           <p className="text-[10px] uppercase tracking-[0.3em] font-black text-red-500 mb-2">Critical Stock</p>
+           <p className="text-3xl font-serif font-black italic text-red-500">
              {items.filter(i => i.quantity <= i.minThreshold).length}
            </p>
         </div>
-        <div className="bg-brand-stone p-8 text-white shadow-xl relative overflow-hidden group border border-brand-sepia">
+        <div className="bg-brand-stone p-8 text-white shadow-2xl relative overflow-hidden group border border-stone-800">
            <Activity className="absolute -right-4 -bottom-4 w-24 h-24 text-white/5 group-hover:scale-110 transition-transform" />
            <p className="text-[10px] uppercase tracking-[0.3em] font-black text-brand-gold mb-2">Health Rating</p>
            <p className="text-3xl font-serif font-black italic relative z-10">EXCELLENT</p>
         </div>
         <button 
           onClick={() => setEditingItem({ category: 'Raw Ingredients', quantity: 0, minThreshold: 10, unit: 'kg' })}
-          className="bg-white p-8 border border-brand-sepia shadow-sm flex flex-col items-center justify-center hover:bg-stone-50 transition-all border-dashed"
+          className="bg-stone-900 p-8 border-2 border-stone-800 shadow-xl flex flex-col items-center justify-center hover:border-brand-gold transition-all border-dashed group"
         >
-          <Plus className="w-6 h-6 text-brand-gold mb-2" />
-          <span className="text-[10px] uppercase font-black tracking-[0.3em] text-brand-stone">Pioneer SKU</span>
+          <Plus className="w-6 h-6 text-brand-gold mb-2 group-hover:scale-125 transition-transform" />
+          <span className="text-[10px] uppercase font-black tracking-[0.3em] text-stone-400 group-hover:text-white">Pioneer SKU</span>
         </button>
       </div>
 
       {/* Main Inventory List */}
-      <div className="bg-white border border-brand-sepia shadow-sm">
-        <div className="p-8 border-b border-brand-sepia flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-           <div className="flex items-center gap-6 overflow-x-auto w-full md:w-auto scrollbar-hide">
+      <div className="bg-stone-900 border border-stone-800 shadow-2xl overflow-hidden">
+        <div className="p-8 border-b border-stone-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-stone-900/50">
+           <div className="flex items-center gap-8 overflow-x-auto w-full md:w-auto scrollbar-hide">
               {categories.map(cat => (
                 <button 
                   key={cat}
                   onClick={() => setFilter(cat)}
                   className={cn(
-                    "text-[10px] uppercase font-black tracking-[0.3em] whitespace-nowrap transition-colors relative focus:outline-none",
-                    filter === cat ? "text-brand-gold" : "text-stone-600 hover:text-brand-stone"
+                    "text-[10px] uppercase font-black tracking-[0.4em] whitespace-nowrap transition-all relative focus:outline-none py-2",
+                    filter === cat ? "text-brand-gold" : "text-stone-500 hover:text-white"
                   )}
                 >
                   {cat}
-                  {filter === cat && <motion.div layoutId="inv-cat" className="absolute -bottom-2 left-0 right-0 h-0.5 bg-brand-gold" />}
+                  {filter === cat && <motion.div layoutId="inv-cat" className="absolute -bottom-1 left-0 right-0 h-1 bg-brand-gold shadow-[0_0_10px_rgba(212,175,55,0.5)]" />}
                 </button>
               ))}
            </div>
-           <div className="relative w-full md:w-64 shadow-inner bg-stone-50 overflow-hidden">
-              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-300" />
+           <div className="relative w-full md:w-80 shadow-2xl bg-stone-950 overflow-hidden border border-stone-800">
+              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-gold" />
               <input 
                 type="text" 
-                placeholder="STOCK SEARCH..." 
+                placeholder="PROCURING SEARCH..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-transparent border-none px-12 py-3 text-[10px] font-black uppercase tracking-widest focus:ring-0 outline-none text-brand-stone"
+                className="w-full bg-transparent border-none px-12 py-4 text-[11px] font-black uppercase tracking-widest focus:ring-0 outline-none text-white placeholder:text-stone-700"
               />
            </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto custom-scrollbar">
            <table className="w-full text-left border-collapse">
               <thead>
-                 <tr className="bg-stone-50 border-b border-brand-sepia">
-                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-600">Inventory Identity</th>
-                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-600">Category</th>
-                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-600">Volume</th>
-                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-600">Standing</th>
-                    <th className="px-8 py-4 text-[9px] uppercase font-black tracking-widest text-stone-600">Recency</th>
-                    <th className="px-8 py-4"></th>
+                 <tr className="bg-stone-950/50 border-b border-stone-800">
+                    <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-stone-500">Inventory Identity</th>
+                    <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-stone-500">Category</th>
+                    <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-stone-500">Volume</th>
+                    <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-stone-500">Standing</th>
+                    <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-stone-500">Recency</th>
+                    <th className="px-8 py-5"></th>
                  </tr>
               </thead>
-              <tbody className="divide-y divide-brand-sepia">
+              <tbody className="divide-y divide-stone-800 bg-stone-900/30">
                  {filteredItems.map((item) => {
                     const isLow = item.quantity <= item.minThreshold;
                     return (
-                       <tr key={item.id} className="group hover:bg-warm-cream/30 transition-colors">
-                          <td className="px-8 py-6">
-                             <p className="font-serif text-lg font-bold italic text-brand-stone">{item.name}</p>
-                             <p className="text-[10px] text-stone-800 font-mono text-xs italic">UUID: {item.id.slice(-6).toUpperCase()}</p>
+                       <tr key={item.id} className="group hover:bg-stone-800 transition-colors">
+                          <td className="px-8 py-7">
+                             <p className="font-serif text-xl font-bold italic text-white group-hover:text-brand-gold transition-colors">{item.name}</p>
+                             <p className="text-[10px] text-stone-600 font-mono font-bold mt-1">UUID: {item.id.slice(-6).toUpperCase()}</p>
                           </td>
-                          <td className="px-8 py-6">
-                             <span className="px-3 py-1 bg-brand-stone/5 text-[9px] uppercase font-black tracking-widest text-stone-700 border border-brand-sepia/20">
+                          <td className="px-8 py-7">
+                             <span className="px-4 py-1.5 bg-stone-800 text-[9px] uppercase font-black tracking-widest text-white border border-stone-700 shadow-inner">
                                 {item.category}
                              </span>
                           </td>
-                          <td className="px-8 py-6">
-                             <p className="font-mono text-sm font-black text-brand-stone">
-                                {item.quantity} <span className="text-stone-600 text-[10px] ml-1">{item.unit}</span>
+                          <td className="px-8 py-7">
+                             <p className="font-mono text-base font-black text-brand-gold">
+                                {item.quantity} <span className="text-stone-500 text-[10px] ml-1 uppercase">{item.unit}</span>
                              </p>
                           </td>
-                          <td className="px-8 py-6">
+                          <td className="px-8 py-7">
                              {isLow ? (
-                                <div className="flex items-center gap-2 text-red-500 bg-red-50 px-3 py-1 w-fit border border-red-100">
+                                <div className="flex items-center gap-2 text-red-500 bg-red-950/30 px-4 py-2 w-fit border border-red-900/30">
                                    <AlertTriangle className="w-3 h-3" />
-                                   <span className="text-[9px] font-black uppercase tracking-widest">Low Stock</span>
+                                   <span className="text-[9px] font-black uppercase tracking-widest animate-pulse">Low Stock</span>
                                 </div>
                              ) : (
-                                <div className="flex items-center gap-2 text-green-600 bg-green-50 px-3 py-1 w-fit border border-green-100">
-                                   <Package className="w-3 h-3 opacity-30" />
+                                <div className="flex items-center gap-2 text-green-500 bg-green-950/30 px-4 py-2 w-fit border border-green-900/30">
+                                   <Package className="w-3 h-3 opacity-50" />
                                    <span className="text-[9px] font-black uppercase tracking-widest">Optimal</span>
                                 </div>
                              )}
                           </td>
-                          <td className="px-8 py-6 text-[10px] text-stone-800 font-bold uppercase tracking-widest">
+                          <td className="px-8 py-7 text-[10px] text-stone-400 font-black uppercase tracking-widest">
                              {item.lastRestockedAt ? new Date(item.lastRestockedAt).toLocaleDateString() : '—'}
                           </td>
-                          <td className="px-8 py-6 text-right">
+                          <td className="px-8 py-7 text-right">
                              <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
                                   onClick={() => setEditingItem(item)}
-                                  className="w-10 h-10 border border-brand-sepia text-stone-600 hover:text-brand-stone hover:bg-white flex items-center justify-center transition-all"
+                                  className="w-12 h-12 border border-stone-700 text-stone-400 hover:text-brand-gold hover:border-brand-gold hover:bg-stone-900 flex items-center justify-center transition-all bg-stone-950 shadow-xl"
                                 >
                                    <History className="w-4 h-4" />
                                 </button>
                                 <button 
                                   onClick={() => deleteItem(item.id)}
-                                  className="w-10 h-10 border border-brand-sepia text-stone-600 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-all"
+                                  className="w-12 h-12 border border-stone-700 text-stone-400 hover:text-red-500 hover:border-red-500 hover:bg-red-950/30 flex items-center justify-center transition-all bg-stone-950 shadow-xl"
                                 >
                                    <Trash2 className="w-4 h-4" />
                                 </button>
@@ -237,6 +237,7 @@ export function InventoryModule() {
            </table>
         </div>
       </div>
+
 
       {editingItem && (
         <Portal>

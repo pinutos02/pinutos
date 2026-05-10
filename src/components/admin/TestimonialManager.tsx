@@ -12,6 +12,7 @@ interface Testimonial {
   userName: string;
   role: string;
   comment: string;
+  suggestions?: string;
   rating: number;
   avatar?: string;
   isModerated: boolean;
@@ -135,6 +136,12 @@ export function TestimonialManager() {
                 <p className="font-serif text-lg text-brand-stone italic leading-relaxed mb-8">
                   "{item.comment}"
                 </p>
+                {item.suggestions && (
+                  <div className="bg-stone-50 p-4 border border-brand-sepia border-dashed mb-8">
+                    <p className="text-[10px] uppercase font-black text-brand-gold tracking-widest mb-1 mt-0">Critical Suggestions:</p>
+                    <p className="text-[11px] text-stone-600 italic leading-relaxed">{item.suggestions}</p>
+                  </div>
+                )}
               </div>
 
               <div className="mt-auto pt-6 border-t border-brand-sepia flex items-center justify-between">
@@ -285,6 +292,16 @@ export function TestimonialManager() {
                     onChange={(e) => setEditingItem({ ...editingItem, comment: e.target.value })}
                     className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none min-h-[120px] resize-none leading-relaxed"
                     placeholder="Their story of Heritage..."
+                  />
+                </div>
+
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-700 ml-1">Internal Suggestions (Hidden from Public)</label>
+                  <textarea
+                    value={editingItem.suggestions || ''}
+                    onChange={(e) => setEditingItem({ ...editingItem, suggestions: e.target.value })}
+                    className="w-full bg-stone-50 border border-brand-sepia/30 p-4 text-sm font-medium focus:ring-1 focus:ring-brand-gold outline-none min-h-[100px] resize-none leading-relaxed"
+                    placeholder="Guest's advice for improvement..."
                   />
                 </div>
               </div>

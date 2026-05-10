@@ -42,17 +42,19 @@ export function MenuPage() {
   });
 
   return (
-    <div className="pt-40 pb-24 px-6 min-h-screen bg-stone-50">
+    <div className="pt-24 md:pt-40 pb-24 px-6 min-h-screen bg-stone-50">
       <div className="max-w-7xl mx-auto">
-        <header className="mb-16 text-center">
+        <header className="mb-12 md:mb-16 text-center">
           <span className="text-[10px] uppercase font-black tracking-[0.6em] text-brand-gold mb-4 block">The Culinary Heritage</span>
-          <h1 className="font-serif text-6xl md:text-8xl font-bold text-brand-stone mb-8 italic leading-none drop-shadow-sm">The Heritage <span className="text-brand-gold italic font-normal">Spread</span></h1>
-          <p className="text-stone-500 max-w-2xl mx-auto leading-relaxed text-sm italic">
+          <h1 className="font-serif text-4xl md:text-8xl font-bold text-brand-stone mb-6 md:mb-8 italic leading-none drop-shadow-sm">
+            The Heritage <span className="text-brand-gold italic font-normal">Spread</span>
+          </h1>
+          <p className="text-stone-500 max-w-2xl mx-auto leading-relaxed text-sm italic px-4">
             Celebrating the soul of Filipino cuisine. Every day is a new feast, featuring seasonal harvests and traditional Villanueva recipes.
           </p>
         </header>
 
-        <div className="flex flex-col lg:flex-row gap-8 items-center justify-between mb-16 px-4 py-8 bg-white border border-brand-sepia shadow-sm">
+        <div className="flex flex-col lg:flex-row gap-8 items-center justify-between mb-16 px-6 py-6 md:py-8 bg-white border border-brand-sepia shadow-sm">
           <div className="flex overflow-x-auto pb-4 lg:pb-0 gap-6 w-full lg:w-auto scrollbar-hide">
             {categories.map((cat) => (
               <button
