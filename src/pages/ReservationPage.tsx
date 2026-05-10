@@ -4,10 +4,12 @@ import { Calendar, Users, Clock, MessageSquare, CheckCircle2, AlertCircle, Chevr
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
+import { useLoading } from '../context/LoadingContext';
 import { cn } from '../lib/utils';
 
 export function ReservationPage() {
   const { user, profile, login } = useAuth();
+  const { setIsLoading } = useLoading();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -34,6 +36,7 @@ export function ReservationPage() {
     }
 
     setLoading(true);
+    setIsLoading(true, "Securing Reservation");
     setError(null);
 
     try {
@@ -53,6 +56,7 @@ export function ReservationPage() {
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
+      setIsLoading(false);
     }
   };
 

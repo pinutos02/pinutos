@@ -7,7 +7,7 @@ const highlights = [
     title: 'Seafood Sensation',
     description: 'Freshly caught crabs, shrimps, and mussels cooked in rich sauces.',
     icon: Fish,
-    image: 'https://images.unsplash.com/photo-1559740064-0235612129be?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1551248429-40975aa4de74?auto=format&fit=crop&q=80&w=800',
     color: 'bg-blue-100 text-blue-600'
   },
   {
@@ -21,14 +21,14 @@ const highlights = [
     title: 'Luzon to Mindanao',
     description: 'A culinary journey featuring classics like Kare-Kare and Humba.',
     icon: Coffee,
-    image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?auto=format&fit=crop&q=80&w=800',
     color: 'bg-green-100 text-green-600'
   },
   {
     title: 'Sweet Ending',
     description: 'Traditional kakanin, halo-halo, and decadent desserts made daily.',
     icon: Cake,
-    image: 'https://images.unsplash.com/photo-1598449356475-b9f71db7d847?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1551024506-0bccd038d33d?auto=format&fit=crop&q=80&w=800',
     color: 'bg-pink-100 text-pink-600'
   }
 ];

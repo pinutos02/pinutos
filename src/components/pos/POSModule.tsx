@@ -17,6 +17,7 @@ import { collection, addDoc, onSnapshot, query, where } from 'firebase/firestore
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
 import { useSocket } from '../../context/SocketContext';
+import { useLoading } from '../../context/LoadingContext';
 import { cn } from '../../lib/utils';
 
 interface POSItem {
@@ -37,8 +38,9 @@ export function POSModule() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [category, setCategory] = useState<string>('Buffet');
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'gcash' | 'maya' | 'card'>('cash');
-  const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     if (!profile) return;
@@ -81,6 +83,7 @@ export function POSModule() {
   const processTransaction = async () => {
     if (cart.length === 0) return;
     setIsProcessing(true);
+    setIsLoading(true, "Recording Transaction");
     
     try {
       const transactionData = {
@@ -105,6 +108,7 @@ export function POSModule() {
       console.error('Transaction failed:', err);
     } finally {
       setIsProcessing(false);
+      setIsLoading(false);
     }
   };
 

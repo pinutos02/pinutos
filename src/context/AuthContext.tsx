@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
+import { useLoading } from './LoadingContext';
 
 interface UserProfile {
   uid: string;
@@ -32,6 +33,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -80,12 +83,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async () => {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    setIsLoading(true, "Authenticating with Google");
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    } catch (err) {
+      console.error("Login failed:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = async () => {
-    await signOut(auth);
+    setIsLoading(true, "Signing Out");
+    try {
+      await signOut(auth);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

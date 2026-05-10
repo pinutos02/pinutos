@@ -14,6 +14,7 @@ import {
 import { collection, query, where, orderBy, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
+import { useLoading } from '../context/LoadingContext';
 import { useSocket } from '../context/SocketContext';
 import { cn } from '../lib/utils';
 
@@ -32,6 +33,7 @@ interface Reservation {
 
 export function CustomerDashboard() {
   const { profile, logout } = useAuth();
+  const { setIsLoading } = useLoading();
   const { occupancy } = useSocket();
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
@@ -55,6 +57,7 @@ export function CustomerDashboard() {
 
   const cancelReservation = async (id: string) => {
     if (!window.confirm('Are you sure you want to cancel this reservation?')) return;
+    setIsLoading(true, "Cancelling Reservation");
     try {
       await updateDoc(doc(db, 'reservations', id), {
         status: 'cancelled',
@@ -62,6 +65,8 @@ export function CustomerDashboard() {
       });
     } catch (err) {
       console.error('Error cancelling reservation:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 

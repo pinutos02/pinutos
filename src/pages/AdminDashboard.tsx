@@ -15,18 +15,23 @@ import {
   Truck,
   History,
   TrendingUp,
-  LayoutDashboard
+  LayoutDashboard,
+  Layout,
+  Image as ImageIcon
 } from 'lucide-react';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { cn } from '../lib/utils';
 import { collection, query, orderBy, limit, onSnapshot, doc, updateDoc, getDocs } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
+import { useLoading } from '../context/LoadingContext';
 import { useSocket } from '../context/SocketContext';
 import { POSModule } from '../components/pos/POSModule';
 import { InventoryModule } from '../components/pos/InventoryModule';
+import { LandingAssetManager } from '../components/admin/LandingAssetManager';
 
 export function AdminDashboard() {
   const { profile } = useAuth();
+  const { setIsLoading } = useLoading();
   const { occupancy } = useSocket();
   const [stats, setStats] = useState({
     users: 0,
@@ -34,7 +39,7 @@ export function AdminDashboard() {
     today: 0
   });
   const [recentReservations, setRecentReservations] = useState<any[]>([]);
-  const [tab, setTab] = useState<'overview' | 'pos' | 'inventory' | 'reservations' | 'menu'>('overview');
+  const [tab, setTab] = useState<'overview' | 'pos' | 'inventory' | 'reservations' | 'menu' | 'content'>('overview');
 
   useEffect(() => {
     if (!profile || (profile.role !== 'admin' && profile.role !== 'staff' && profile.role !== 'super-admin')) {
@@ -74,6 +79,7 @@ export function AdminDashboard() {
   }, [profile]);
 
   const updateStatus = async (id: string, status: string) => {
+    setIsLoading(true, "Updating Status");
     try {
       await updateDoc(doc(db, 'reservations', id), { 
         status, 
@@ -81,6 +87,8 @@ export function AdminDashboard() {
       });
     } catch (err) {
       handleFirestoreError(err, OperationType.UPDATE, `reservations/${id}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -119,16 +127,18 @@ export function AdminDashboard() {
           POS Terminal
         </button>
 
-        <button 
-          onClick={() => setTab('inventory')}
-          className={cn(
-            "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-            tab === 'inventory' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
-          )}
-        >
-          <Package className="w-5 h-5" />
-          Inventory
-        </button>
+        {(profile.role === 'admin' || profile.role === 'super-admin') && (
+          <button 
+            onClick={() => setTab('inventory')}
+            className={cn(
+              "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+              tab === 'inventory' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+            )}
+          >
+            <Package className="w-5 h-5" />
+            Inventory
+          </button>
+        )}
 
         <button 
           onClick={() => setTab('reservations')}
@@ -141,16 +151,31 @@ export function AdminDashboard() {
           Reservations
         </button>
 
-        <button 
-          onClick={() => setTab('menu')}
-          className={cn(
-            "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-            tab === 'menu' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
-          )}
-        >
-          <TrendingUp className="w-5 h-5" />
-          Menu & Prices
-        </button>
+        {(profile.role === 'admin' || profile.role === 'super-admin') && (
+          <button 
+            onClick={() => setTab('content')}
+            className={cn(
+              "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+              tab === 'content' ? "bg-brand-gold text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+            )}
+          >
+            <Layout className="w-5 h-5" />
+            Landing Displays
+          </button>
+        )}
+
+        {(profile.role === 'admin' || profile.role === 'super-admin') && (
+          <button 
+            onClick={() => setTab('menu')}
+            className={cn(
+              "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+              tab === 'menu' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+            )}
+          >
+            <TrendingUp className="w-5 h-5" />
+            Menu & Prices
+          </button>
+        )}
         
         <div className="mt-auto pt-8 border-t border-brand-sepia">
            <button className="flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] text-stone-500 hover:bg-white hover:border border-brand-sepia w-full transition-all">
@@ -279,6 +304,7 @@ export function AdminDashboard() {
 
         {tab === 'pos' && <POSModule />}
         {tab === 'inventory' && <InventoryModule />}
+        {tab === 'content' && <LandingAssetManager />}
 
         {tab === 'reservations' && (
            <div className="bg-white p-20 border border-brand-sepia text-center shadow-sm">

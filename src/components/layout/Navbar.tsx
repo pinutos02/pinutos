@@ -46,10 +46,10 @@ export function Navbar({ currentView, onViewChange }: NavbarProps) {
           onClick={() => onViewChange('home')}
         >
           <div className="flex flex-col">
-            <h1 className="font-serif text-xl lg:text-2xl font-bold tracking-tight text-brand-stone leading-none">
+            <h1 className="font-serif text-xl lg:text-3xl font-bold tracking-tight text-brand-stone leading-none drop-shadow-sm">
               The Heritage <span className="text-brand-gold italic font-normal">Eat All You Can</span>
             </h1>
-            <span className="text-[8px] tracking-[0.4em] uppercase font-bold text-stone-400 mt-1">Heritage Buffet • Since 2020</span>
+            <span className="text-[9px] tracking-[0.5em] uppercase font-black text-stone-400 mt-2">Heritage Buffet • Since 2020</span>
           </div>
         </div>
 

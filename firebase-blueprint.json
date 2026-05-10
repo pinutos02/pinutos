@@ -160,9 +160,30 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["inventoryItemId", "quantity", "reason", "createdAt"]
+    },
+    "LandingAsset": {
+      "title": "Landing Page Asset",
+      "description": "Dynamic content for the landing page (images, videos, events)",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "type": { "type": "string", "enum": ["image", "video", "event", "moment"] },
+        "mediaUrl": { "type": "string" },
+        "thumbnailUrl": { "type": "string" },
+        "linkUrl": { "type": "string" },
+        "order": { "type": "integer" },
+        "isActive": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "type", "mediaUrl", "isActive"]
     }
   },
   "firestore": {
+    "/landing_assets/{assetId}": {
+      "schema": "LandingAsset",
+      "description": "Dynamic landing page components"
+    },
     "/inventory/{itemId}": {
       "schema": "InventoryItem",
       "description": "Master inventory tracking"

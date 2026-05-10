@@ -11,6 +11,7 @@ import { POSModule } from './components/pos/POSModule';
 import { InventoryModule } from './components/pos/InventoryModule';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
+import { LoadingProvider } from './context/LoadingContext';
 import { motion, AnimatePresence } from 'motion/react';
 
 function AppContent() {
@@ -61,10 +62,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <SocketProvider>
-        <AppContent />
-      </SocketProvider>
-    </AuthProvider>
+    <LoadingProvider>
+      <AuthProvider>
+        <SocketProvider>
+          <AppContent />
+        </SocketProvider>
+      </AuthProvider>
+    </LoadingProvider>
   );
 }

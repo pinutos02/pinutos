@@ -5,6 +5,7 @@ import { Promotions } from '../components/home/Promotions';
 import { Testimonials } from '../components/home/Testimonials';
 import { MapSection } from '../components/home/MapSection';
 import { motion } from 'motion/react';
+import { DynamicAds, DynamicVideos, DynamicMoments, DynamicEvents } from '../components/home/LandingContent';
 
 interface HomePageProps {
   onNavigate: (view: any) => void;
@@ -32,9 +33,17 @@ export function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
+      <DynamicVideos />
+      
+      <DynamicAds onNavigate={onNavigate} />
+
       <Promotions onNavigate={onNavigate} />
+
+      <DynamicEvents />
       
       <Testimonials />
+
+      <DynamicMoments />
 
       <section className="py-24 px-12 bg-white border-t border-brand-sepia">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
