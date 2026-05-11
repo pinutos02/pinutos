@@ -110,7 +110,7 @@ export function InventoryModule() {
   });
 
   return (
-    <div className="space-y-12 bg-stone-950 p-6 lg:p-10 rounded-sm">
+    <div className="space-y-12">
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-stone-900 p-8 border border-stone-800 shadow-xl">

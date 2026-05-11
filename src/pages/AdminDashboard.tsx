@@ -48,6 +48,8 @@ export function AdminDashboard() {
   const [tab, setTab] = useState<'overview' | 'pos' | 'inventory' | 'reservations' | 'menu' | 'content' | 'site_media' | 'promotions' | 'testimonials' | 'audit'>('overview');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const isDarkTab = ['pos', 'inventory', 'audit'].includes(tab);
+
   useEffect(() => {
     if (!profile || (profile.role !== 'admin' && profile.role !== 'staff' && profile.role !== 'super-admin')) {
       return;
@@ -109,16 +111,28 @@ export function AdminDashboard() {
   }
 
   return (
-    <div className="h-screen bg-warm-cream flex flex-col lg:flex-row overflow-hidden">
+    <div className={cn(
+      "h-screen flex flex-col lg:flex-row overflow-hidden transition-colors duration-500",
+      isDarkTab ? "bg-stone-950" : "bg-warm-cream"
+    )}>
       {/* Mobile Header */}
-      <div className="lg:hidden bg-white border-b border-brand-sepia px-6 py-4 flex items-center justify-between z-50">
+      <div className={cn(
+        "lg:hidden border-b px-6 py-4 flex items-center justify-between z-50",
+        isDarkTab ? "bg-stone-900 border-stone-800" : "bg-white border-brand-sepia"
+      )}>
         <div className="flex items-center gap-3">
           <LayoutDashboard className="w-6 h-6 text-brand-gold" />
-          <span className="font-serif font-black italic text-xl">Admin</span>
+          <span className={cn(
+            "font-serif font-black italic text-xl",
+            isDarkTab ? "text-white" : "text-brand-stone"
+          )}>Admin</span>
         </div>
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 border border-brand-sepia text-brand-stone"
+          className={cn(
+            "p-2 border",
+            isDarkTab ? "border-stone-700 text-brand-gold" : "border-brand-sepia text-brand-stone"
+          )}
         >
           {isMobileMenuOpen ? <XCircle size={20} /> : <MoreVertical size={20} />}
         </button>
@@ -132,19 +146,23 @@ export function AdminDashboard() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-40 lg:hidden"
+            className="fixed inset-0 bg-stone-950/80 backdrop-blur-sm z-40 lg:hidden"
           />
         )}
       </AnimatePresence>
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed lg:relative inset-y-0 left-0 w-72 bg-warm-cream z-50 lg:z-0 border-r border-brand-sepia flex flex-col shrink-0 transition-transform duration-500 ease-in-out lg:translate-x-0",
-        isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        "fixed lg:relative inset-y-0 left-0 w-72 z-50 lg:z-0 border-r flex flex-col shrink-0 transition-all duration-500 ease-in-out lg:translate-x-0",
+        isMobileMenuOpen ? "translate-x-0" : "-translate-x-full",
+        isDarkTab ? "bg-stone-900 border-stone-800 shadow-2xl" : "bg-warm-cream border-brand-sepia"
       )}>
         <div className="p-8 hidden lg:block">
            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-gold block mb-1">Heritage Hub</span>
-           <h2 className="font-serif text-2xl font-black italic text-brand-stone">Console</h2>
+           <h2 className={cn(
+             "font-serif text-2xl font-black italic",
+             isDarkTab ? "text-white" : "text-brand-stone"
+           )}>Console</h2>
         </div>
 
         <nav className="flex-grow flex flex-col gap-1 px-4 lg:px-6 pb-12 overflow-y-auto scrollbar-hide pt-4 lg:pt-0">
@@ -152,7 +170,9 @@ export function AdminDashboard() {
             onClick={() => { setTab('overview'); setIsMobileMenuOpen(false); }}
             className={cn(
               "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-              tab === 'overview' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+              tab === 'overview' 
+                ? "bg-brand-stone text-white shadow-xl" 
+                : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
             )}
           >
             <BarChart3 className="w-5 h-5" />
@@ -163,7 +183,9 @@ export function AdminDashboard() {
             onClick={() => { setTab('pos'); setIsMobileMenuOpen(false); }}
             className={cn(
               "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-              tab === 'pos' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+              tab === 'pos' 
+                ? (isDarkTab ? "bg-brand-gold text-stone-950 shadow-2xl scale-105" : "bg-brand-stone text-white shadow-xl") 
+                : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
             )}
           >
             <Monitor className="w-5 h-5" />
@@ -175,7 +197,9 @@ export function AdminDashboard() {
               onClick={() => { setTab('inventory'); setIsMobileMenuOpen(false); }}
               className={cn(
                 "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-                tab === 'inventory' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                tab === 'inventory' 
+                  ? (isDarkTab ? "bg-brand-gold text-stone-950 shadow-2xl scale-105" : "bg-brand-stone text-white shadow-xl") 
+                  : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
               )}
             >
               <Package className="w-5 h-5" />
@@ -187,7 +211,9 @@ export function AdminDashboard() {
             onClick={() => { setTab('reservations'); setIsMobileMenuOpen(false); }}
             className={cn(
               "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-              tab === 'reservations' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+              tab === 'reservations' 
+                ? "bg-brand-stone text-white shadow-xl" 
+                : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
             )}
           >
             <Calendar className="w-5 h-5" />
@@ -199,7 +225,9 @@ export function AdminDashboard() {
               onClick={() => { setTab('audit'); setIsMobileMenuOpen(false); }}
               className={cn(
                 "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-                tab === 'audit' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                tab === 'audit' 
+                  ? (isDarkTab ? "bg-brand-gold text-stone-950 shadow-2xl scale-105" : "bg-brand-stone text-white shadow-xl") 
+                  : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
               )}
             >
               <BarChart3 className="w-5 h-5" />
@@ -209,9 +237,9 @@ export function AdminDashboard() {
 
           {(profile.role === 'admin' || profile.role === 'super-admin') && (
             <div className="mt-6 mb-2 flex items-center gap-4 px-6 opacity-30">
-              <div className="h-px flex-1 bg-brand-stone" />
-              <span className="text-[8px] font-black uppercase tracking-widest text-brand-stone">Content</span>
-              <div className="h-px flex-1 bg-brand-stone" />
+              <div className={cn("h-px flex-1", isDarkTab ? "bg-stone-700" : "bg-brand-stone")} />
+              <span className={cn("text-[8px] font-black uppercase tracking-widest", isDarkTab ? "text-stone-500" : "text-brand-stone")}>Content</span>
+              <div className={cn("h-px flex-1", isDarkTab ? "bg-stone-700" : "bg-brand-stone")} />
             </div>
           )}
 
@@ -221,7 +249,9 @@ export function AdminDashboard() {
                 onClick={() => { setTab('content'); setIsMobileMenuOpen(false); }}
                 className={cn(
                   "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-                  tab === 'content' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                  tab === 'content' 
+                    ? "bg-brand-stone text-white shadow-xl" 
+                    : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
                 )}
               >
                 <Layout className="w-5 h-5" />
@@ -232,7 +262,9 @@ export function AdminDashboard() {
                 onClick={() => { setTab('site_media'); setIsMobileMenuOpen(false); }}
                 className={cn(
                   "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-                  tab === 'site_media' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                  tab === 'site_media' 
+                    ? "bg-brand-stone text-white shadow-xl" 
+                    : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
                 )}
               >
                 <ImageIcon className="w-5 h-5" />
@@ -243,7 +275,9 @@ export function AdminDashboard() {
                 onClick={() => { setTab('promotions'); setIsMobileMenuOpen(false); }}
                 className={cn(
                   "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-                  tab === 'promotions' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                  tab === 'promotions' 
+                    ? "bg-brand-stone text-white shadow-xl" 
+                    : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
                 )}
               >
                 <History className="w-5 h-5" />
@@ -254,7 +288,9 @@ export function AdminDashboard() {
                 onClick={() => { setTab('testimonials'); setIsMobileMenuOpen(false); }}
                 className={cn(
                   "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-                  tab === 'testimonials' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                  tab === 'testimonials' 
+                    ? "bg-brand-stone text-white shadow-xl" 
+                    : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
                 )}
               >
                 <Users className="w-5 h-5" />
@@ -265,7 +301,9 @@ export function AdminDashboard() {
                 onClick={() => { setTab('menu'); setIsMobileMenuOpen(false); }}
                 className={cn(
                   "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
-                  tab === 'menu' ? "bg-brand-stone text-white shadow-xl" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                  tab === 'menu' 
+                    ? "bg-brand-stone text-white shadow-xl" 
+                    : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
                 )}
               >
                 <TrendingUp className="w-5 h-5" />
@@ -274,8 +312,11 @@ export function AdminDashboard() {
             </>
           )}
           
-          <div className="mt-auto pt-8 border-t border-brand-sepia space-y-2">
-             <button className="flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] text-stone-600 hover:bg-white hover:border border-brand-sepia w-full transition-all">
+          <div className={cn("mt-auto pt-8 border-t space-y-2", isDarkTab ? "border-stone-800" : "border-brand-sepia")}>
+             <button className={cn(
+               "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] w-full transition-all",
+               isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-600 hover:bg-white hover:border border-brand-sepia"
+             )}>
               <Settings className="w-5 h-5 text-stone-400" />
               System Settings
             </button>
@@ -286,7 +327,10 @@ export function AdminDashboard() {
                   window.location.href = "/";
                 }
               }}
-              className="flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] text-stone-600 hover:bg-red-50 hover:text-red-700 w-full transition-all"
+              className={cn(
+                "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] w-full transition-all",
+                isDarkTab ? "text-stone-500 hover:bg-red-950/20 hover:text-red-500" : "text-stone-600 hover:bg-red-50 hover:text-red-700"
+              )}
             >
               <XCircle className="w-5 h-5 text-red-300" />
               Sign Out
@@ -302,11 +346,20 @@ export function AdminDashboard() {
             <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-12">
               <div>
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-gold mb-2 block">Administrative Portal</span>
-                <h1 className="font-serif text-4xl lg:text-6xl font-bold text-brand-stone italic leading-none">Management Dashboard</h1>
-                <p className="text-stone-700 text-sm mt-3 italic">Welcome back, {profile.displayName.split(' ')[0]}!</p>
+                <h1 className={cn(
+                  "font-serif text-4xl lg:text-6xl font-bold italic leading-none transition-colors",
+                  isDarkTab ? "text-white" : "text-brand-stone"
+                )}>Management Dashboard</h1>
+                <p className={cn(
+                  "text-sm mt-3 italic",
+                  isDarkTab ? "text-stone-500" : "text-stone-700"
+                )}>Welcome back, {profile.displayName.split(' ')[0]}!</p>
               </div>
               <div className="flex gap-4">
-                <button className="flex items-center gap-2 px-8 py-4 bg-white border border-brand-sepia text-[10px] uppercase font-black tracking-widest text-stone-500 hover:shadow-xl transition-all">
+                <button className={cn(
+                  "flex items-center gap-2 px-8 py-4 text-[10px] uppercase font-black tracking-widest transition-all",
+                  isDarkTab ? "bg-stone-900 border border-stone-800 text-stone-400 hover:text-white" : "bg-white border border-brand-sepia text-stone-500 hover:shadow-xl"
+                )}>
                    Live Stats
                 </button>
                 {tab === 'menu' && (

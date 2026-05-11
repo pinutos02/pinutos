@@ -91,24 +91,24 @@ export function Logo({ className, size = 120, animated = false }: LogoProps) {
         </motion.div>
       </div>
 
-      {/* PINUTOS TEXT */}
-      <div className="mt-12 relative">
+      {/* HERITAGE TEXT */}
+      <div className="mt-12 relative text-center">
         <h2 
-          className="text-white font-black text-6xl lg:text-8xl italic tracking-tighter uppercase leading-none"
+          className="text-white font-black text-5xl lg:text-7xl italic tracking-tighter uppercase leading-none"
           style={{ 
             textShadow: `
-              8px 8px 0px #000, 
+              6px 6px 0px #000, 
               -1px -1px 0px #000, 
               1px -1px 0px #000, 
               -1px 1px 0px #000, 
               1px 1px 0px #000,
-              0px 15px 30px rgba(0,0,0,0.6)
+              0px 10px 20px rgba(0,0,0,0.6)
             `,
             fontFamily: '"Playfair Display", serif',
-            letterSpacing: '-0.04em'
+            letterSpacing: '-0.02em'
           }}
         >
-          PINUTOS
+          THE HERITAGE
         </h2>
       </div>
     </div>

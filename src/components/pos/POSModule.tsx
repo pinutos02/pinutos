@@ -135,7 +135,7 @@ export function POSModule() {
   const categories = ['Buffet', 'Drinks', 'Extras', 'Catering'];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-auto lg:h-[calc(100vh-260px)] pb-24 lg:pb-0 bg-stone-950 p-6 rounded-sm">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-auto lg:h-[calc(100vh-260px)] pb-24 lg:pb-0">
       {/* Product Selection (LG: 8 Cols) */}
       <div className="lg:col-span-7 flex flex-col gap-6 max-h-[50vh] lg:max-h-full">
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">

@@ -96,7 +96,7 @@ export function SalesAuditModule() {
   };
 
   return (
-    <div className="space-y-12 bg-stone-950 p-6 lg:p-10 rounded-sm">
+    <div className="space-y-12">
       {/* Month Navigator */}
       <div className="flex items-center justify-between bg-stone-900 p-8 border border-stone-800 shadow-2xl">
         <div className="flex items-center gap-6">

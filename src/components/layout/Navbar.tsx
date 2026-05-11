@@ -35,6 +35,8 @@ export function Navbar({ currentView, onViewChange }: NavbarProps) {
     });
   }
 
+  if (currentView === 'dashboard') return null;
+
   return (
     <nav className={cn(
       "fixed top-0 left-0 right-0 z-40 transition-all duration-500 px-6 lg:px-12 py-4",

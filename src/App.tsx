@@ -41,8 +41,8 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-warm-cream flex flex-col font-sans selection:bg-brand-gold selection:text-white relative">
-      <Navbar currentView={view} onViewChange={setView} />
-      <main className="flex-grow">
+      {view !== 'dashboard' && <Navbar currentView={view} onViewChange={setView} />}
+      <main className="flex-grow flex flex-col min-h-0 relative z-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={view}
