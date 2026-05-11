@@ -8,7 +8,7 @@ export function Footer({ onNavigate }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-warm-cream text-brand-stone py-20 px-12 border-t border-brand-sepia">
+    <footer className="bg-warm-cream text-brand-stone pt-20 pb-28 px-12 border-t border-brand-sepia relative">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16">
         <div className="col-span-1 md:col-span-2">
           <span className="text-[10px] uppercase tracking-[0.3em] font-semibold text-stone-500 mb-2 block tracking-widest">Est. 2020</span>
@@ -54,6 +54,13 @@ export function Footer({ onNavigate }: FooterProps) {
           </span>
           <span>System Secure</span>
         </div>
+      </div>
+      
+      {/* Developer Credit */}
+      <div className="absolute bottom-0 left-0 right-0 bg-[#001f3f] py-3 text-center">
+        <p className="text-[10px] uppercase tracking-[0.4em] font-black text-blue-200 opacity-60">
+          Developed By : Elmar R. Funcion
+        </p>
       </div>
     </footer>
   );
