@@ -12,7 +12,7 @@ export function Footer({ onNavigate }: FooterProps) {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16">
         <div className="col-span-1 md:col-span-2">
           <span className="text-[10px] uppercase tracking-[0.3em] font-semibold text-stone-500 mb-2 block tracking-widest">Est. 2020</span>
-          <h2 className="font-serif text-3xl font-bold mb-6 italic">The Heritage <span className="text-brand-gold italic">Eat All You Can</span></h2>
+          <h2 className="font-serif text-3xl font-bold mb-6 italic">The Heritage</h2>
           <p className="text-stone-500 mb-8 max-w-sm leading-relaxed text-sm">
             Located in Purok 4, Looc, Villanueva, Misamis Oriental. Beside Aquarius Beach. We serve heritage recipes with passion and soul.
           </p>
