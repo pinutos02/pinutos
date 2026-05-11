@@ -169,10 +169,12 @@ export function AdminDashboard() {
           <button 
             onClick={() => { setTab('overview'); setIsMobileMenuOpen(false); }}
             className={cn(
-              "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+              "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-200 border",
               tab === 'overview' 
-                ? "bg-brand-stone text-white shadow-xl" 
-                : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                ? "bg-brand-stone text-white border-brand-stone shadow-xl" 
+                : isDarkTab 
+                  ? "text-stone-500 border-transparent hover:bg-stone-800 hover:text-stone-300" 
+                  : "text-stone-500 border-transparent hover:bg-white hover:border-brand-sepia"
             )}
           >
             <BarChart3 className="w-5 h-5" />
@@ -182,10 +184,12 @@ export function AdminDashboard() {
           <button 
             onClick={() => { setTab('pos'); setIsMobileMenuOpen(false); }}
             className={cn(
-              "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+              "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-200 border",
               tab === 'pos' 
-                ? (isDarkTab ? "bg-brand-gold text-stone-950 shadow-2xl scale-105" : "bg-brand-stone text-white shadow-xl") 
-                : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                ? (isDarkTab ? "bg-brand-gold text-stone-950 border-brand-gold shadow-2xl" : "bg-brand-stone text-white border-brand-stone shadow-xl") 
+                : isDarkTab 
+                  ? "text-stone-500 border-transparent hover:bg-stone-800 hover:text-stone-300" 
+                  : "text-stone-500 border-transparent hover:bg-white hover:border-brand-sepia"
             )}
           >
             <Monitor className="w-5 h-5" />
@@ -196,10 +200,12 @@ export function AdminDashboard() {
             <button 
               onClick={() => { setTab('inventory'); setIsMobileMenuOpen(false); }}
               className={cn(
-                "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+                "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-200 border",
                 tab === 'inventory' 
-                  ? (isDarkTab ? "bg-brand-gold text-stone-950 shadow-2xl scale-105" : "bg-brand-stone text-white shadow-xl") 
-                  : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                  ? (isDarkTab ? "bg-brand-gold text-stone-950 border-brand-gold shadow-2xl" : "bg-brand-stone text-white border-brand-stone shadow-xl") 
+                  : isDarkTab 
+                    ? "text-stone-500 border-transparent hover:bg-stone-800 hover:text-stone-300" 
+                    : "text-stone-500 border-transparent hover:bg-white hover:border-brand-sepia"
               )}
             >
               <Package className="w-5 h-5" />
@@ -210,10 +216,12 @@ export function AdminDashboard() {
           <button 
             onClick={() => { setTab('reservations'); setIsMobileMenuOpen(false); }}
             className={cn(
-              "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+              "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-200 border",
               tab === 'reservations' 
-                ? "bg-brand-stone text-white shadow-xl" 
-                : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                ? "bg-brand-stone text-white border-brand-stone shadow-xl" 
+                : isDarkTab 
+                  ? "text-stone-500 border-transparent hover:bg-stone-800 hover:text-stone-300" 
+                  : "text-stone-500 border-transparent hover:bg-white hover:border-brand-sepia"
             )}
           >
             <Calendar className="w-5 h-5" />
@@ -224,10 +232,12 @@ export function AdminDashboard() {
             <button 
               onClick={() => { setTab('audit'); setIsMobileMenuOpen(false); }}
               className={cn(
-                "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+                "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-200 border",
                 tab === 'audit' 
-                  ? (isDarkTab ? "bg-brand-gold text-stone-950 shadow-2xl scale-105" : "bg-brand-stone text-white shadow-xl") 
-                  : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                  ? (isDarkTab ? "bg-brand-gold text-stone-950 border-brand-gold shadow-2xl" : "bg-brand-stone text-white border-brand-stone shadow-xl") 
+                  : isDarkTab 
+                    ? "text-stone-500 border-transparent hover:bg-stone-800 hover:text-stone-300" 
+                    : "text-stone-500 border-transparent hover:bg-white hover:border-brand-sepia"
               )}
             >
               <BarChart3 className="w-5 h-5" />
@@ -248,10 +258,12 @@ export function AdminDashboard() {
               <button 
                 onClick={() => { setTab('content'); setIsMobileMenuOpen(false); }}
                 className={cn(
-                  "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+                  "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-200 border",
                   tab === 'content' 
-                    ? "bg-brand-stone text-white shadow-xl" 
-                    : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                    ? "bg-brand-stone text-white border-brand-stone shadow-xl" 
+                    : isDarkTab 
+                      ? "text-stone-500 border-transparent hover:bg-stone-800 hover:text-stone-300" 
+                      : "text-stone-500 border-transparent hover:bg-white hover:border-brand-sepia"
                 )}
               >
                 <Layout className="w-5 h-5" />
@@ -261,10 +273,12 @@ export function AdminDashboard() {
               <button 
                 onClick={() => { setTab('site_media'); setIsMobileMenuOpen(false); }}
                 className={cn(
-                  "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+                  "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-200 border",
                   tab === 'site_media' 
-                    ? "bg-brand-stone text-white shadow-xl" 
-                    : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                    ? "bg-brand-stone text-white border-brand-stone shadow-xl" 
+                    : isDarkTab 
+                      ? "text-stone-500 border-transparent hover:bg-stone-800 hover:text-stone-300" 
+                      : "text-stone-500 border-transparent hover:bg-white hover:border-brand-sepia"
                 )}
               >
                 <ImageIcon className="w-5 h-5" />
@@ -274,10 +288,12 @@ export function AdminDashboard() {
               <button 
                 onClick={() => { setTab('promotions'); setIsMobileMenuOpen(false); }}
                 className={cn(
-                  "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+                  "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-200 border",
                   tab === 'promotions' 
-                    ? "bg-brand-stone text-white shadow-xl" 
-                    : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                    ? "bg-brand-stone text-white border-brand-stone shadow-xl" 
+                    : isDarkTab 
+                      ? "text-stone-500 border-transparent hover:bg-stone-800 hover:text-stone-300" 
+                      : "text-stone-500 border-transparent hover:bg-white hover:border-brand-sepia"
                 )}
               >
                 <History className="w-5 h-5" />
@@ -287,10 +303,12 @@ export function AdminDashboard() {
               <button 
                 onClick={() => { setTab('testimonials'); setIsMobileMenuOpen(false); }}
                 className={cn(
-                  "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+                  "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-200 border",
                   tab === 'testimonials' 
-                    ? "bg-brand-stone text-white shadow-xl" 
-                    : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                    ? "bg-brand-stone text-white border-brand-stone shadow-xl" 
+                    : isDarkTab 
+                      ? "text-stone-500 border-transparent hover:bg-stone-800 hover:text-stone-300" 
+                      : "text-stone-500 border-transparent hover:bg-white hover:border-brand-sepia"
                 )}
               >
                 <Users className="w-5 h-5" />
@@ -300,10 +318,12 @@ export function AdminDashboard() {
               <button 
                 onClick={() => { setTab('menu'); setIsMobileMenuOpen(false); }}
                 className={cn(
-                  "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all",
+                  "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-200 border",
                   tab === 'menu' 
-                    ? "bg-brand-stone text-white shadow-xl" 
-                    : isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-500 hover:bg-white hover:border border-brand-sepia"
+                    ? "bg-brand-stone text-white border-brand-stone shadow-xl" 
+                    : isDarkTab 
+                      ? "text-stone-500 border-transparent hover:bg-stone-800 hover:text-stone-300" 
+                      : "text-stone-500 border-transparent hover:bg-white hover:border-brand-sepia"
                 )}
               >
                 <TrendingUp className="w-5 h-5" />
@@ -314,8 +334,8 @@ export function AdminDashboard() {
           
           <div className={cn("mt-auto pt-8 border-t space-y-2", isDarkTab ? "border-stone-800" : "border-brand-sepia")}>
              <button className={cn(
-               "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] w-full transition-all",
-               isDarkTab ? "text-stone-500 hover:bg-stone-800" : "text-stone-600 hover:bg-white hover:border border-brand-sepia"
+               "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] w-full transition-all duration-200 border border-transparent",
+               isDarkTab ? "text-stone-500 hover:bg-stone-800 hover:text-stone-300" : "text-stone-600 hover:bg-white hover:border-brand-sepia"
              )}>
               <Settings className="w-5 h-5 text-stone-400" />
               System Settings
@@ -328,8 +348,8 @@ export function AdminDashboard() {
                 }
               }}
               className={cn(
-                "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] w-full transition-all",
-                isDarkTab ? "text-stone-500 hover:bg-red-950/20 hover:text-red-500" : "text-stone-600 hover:bg-red-50 hover:text-red-700"
+                "flex items-center gap-3 px-6 py-4 font-black text-[10px] uppercase tracking-[0.3em] w-full transition-all duration-200 border border-transparent",
+                isDarkTab ? "text-stone-500 hover:bg-red-950/20 hover:text-red-500" : "text-stone-600 hover:bg-red-50 hover:text-red-700 hover:border-red-100"
               )}
             >
               <XCircle className="w-5 h-5 text-red-300" />
